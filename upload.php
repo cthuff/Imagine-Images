@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="google-signin-client_id" content="773465469592-70tepenvk2lc7sbhs1d1k5i98k0gdp09.apps.googleusercontent.com">
   <title>Imagine Images</title>
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="https://apis.google.com/js/platform.js"></script>
   
   <!-- CSS -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -20,7 +20,7 @@
 <body>
   
   <nav class="light-blue lighten-1" style="line-height: 0px"role="navigation">
-    <div class="nav-wrapper" ><a id="logo-container" href="http://localhost/classwork/Final/project3.php" class="brand-logo center" style ="padding-top:30px;">Imagine Images</a>
+    <div class="nav-wrapper" ><a id="logo-container" href="/" class="brand-logo center" style ="padding-top:30px;">Imagine Images</a>
 
     <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><div class="right g-signin2" style ="padding-top:14px; padding-right:30px;"data-onsuccess="onSignIn"></div></li>
@@ -35,7 +35,7 @@
 
 
 <?php
-require_once 'login.php';
+include "../inc/dbinfo.inc";
 
 $target_name = basename($_FILES["fileToUpload"]["name"]);
 $target_dir = "uploads/";
@@ -91,7 +91,7 @@ if ($uploadOk == 0) {
     // #####################################
 
     // Create connection
-    $conn = mysqli_connect($servername, $username, $password, $database);
+    $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
     // Check connection
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
@@ -116,7 +116,7 @@ if ($uploadOk == 0) {
         echo "<img style='display: block; margin-left: auto; margin-right: auto;' width='650' src='$target_file'>"; 
 ?>
     <br>
-    <a class="waves-effect waves-light btn-large" style="display: block; margin-left: auto; margin-right: auto;" href="http://localhost/classwork/Final/project3.php">Home</a>
+    <a class="waves-effect waves-light btn-large" style="display: block; margin-left: auto; margin-right: auto;" href="/">Home</a>
     </div>
     
 <div class="section no-pad-bot" id="index-banner">
