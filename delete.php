@@ -1,5 +1,5 @@
 <?php
-require_once '/vendor/autoload.php';
+include "/vendor/autoload.php";
 include "../inc/dbinfo.inc";
 session_start();
 
