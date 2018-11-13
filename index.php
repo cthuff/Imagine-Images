@@ -1,4 +1,5 @@
 <?php
+require_once '/vendor/autoload.php';
 include "../inc/dbinfo.inc";
 session_start();
 ?>
@@ -130,6 +131,7 @@ session_start();
     auth2.signOut().then(function () {
       console.log('User signed out.');
     });
+    require_once '/path/to/your-project/vendor/autoload.php';
   }
   </script>
 
