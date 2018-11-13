@@ -105,8 +105,6 @@ session_start();
   </div>
  
   <script>
-<<<<<<< HEAD
-=======
   function onSignIn(googleUser) {
 
     var profile = googleUser.getBasicProfile();
@@ -127,7 +125,6 @@ session_start();
   </script>
 
   <script>
->>>>>>> ff6bf4da2fd1a059b94b1177ef7ed310e87bc6c0
   function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
