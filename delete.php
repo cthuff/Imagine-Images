@@ -1,5 +1,4 @@
 <?php
-require __DIR__ . '/vendor/autoload.php';
 include "../inc/dbinfo.inc";
 session_start();
 

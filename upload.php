@@ -35,7 +35,6 @@
 
 
 <?php
-require __DIR__ . '/vendor/autoload.php';
 include "../inc/dbinfo.inc";
 
 $target_name = basename($_FILES["fileToUpload"]["name"]);
