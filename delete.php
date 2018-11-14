@@ -1,11 +1,10 @@
 <?php
-include "/vendor/autoload.php";
 include "../inc/dbinfo.inc";
 session_start();
 
 $filename = $_POST['filename'];
 shell_exec("rm uploads/" . $filename );
-
+shell_exec('aws s3 sync /var/www/html/uploads/ s3://rekognitiontest174/ --delete ');
 // #####################################
 // #          MySQL calls 
 // #####################################

@@ -35,7 +35,6 @@
 
 
 <?php
-include "/vendor/autoload.php";
 include "../inc/dbinfo.inc";
 
 $target_name = basename($_FILES["fileToUpload"]["name"]);
@@ -43,6 +42,14 @@ $target_dir = "uploads/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+
+  if ($_FILES["fileToUpload"]["error"] > 0)
+   {
+   echo "Apologies, an error has occurred.";
+   echo "Error Code: " . $_FILES["fileToUpload"]["error"];
+}
+
 // Check if image file is a actual image or fake image
 if($target_dir != $target_file){
     if(isset($_POST["submit"])) {
@@ -59,18 +66,18 @@ if($target_dir != $target_file){
     $uploadOk = 0;
 }
 // Check if file already exists
-if (file_exists($target_file)) {
+if (file_exists($target_file) && $uploadOk == 1) {
     echo "<a>" . "Sorry, file already exists.</a><br>";
     $uploadOk = 0;
 }
-// Check file size: Must be less than 10MB                    
-if ($_FILES["fileToUpload"]["size"] > 10000000) {
-    echo "<a>" . "Sorry, the file must be less than 10MB.</a><br>";
+// Check file size: Must be less than 8.3MB (This is set by AWS)                    
+if ($_FILES["fileToUpload"]["size"] > 8388608  && $uploadOk == 1) {
+    echo "<a>" . "Sorry, the file must be less than 8MB.</a><br>";
     $uploadOk = 0;
 }
 // Allow certain file formats
 if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-&& $imageFileType != "gif" ) {
+&& $imageFileType != "gif"  && $uploadOk == 1) {
     echo "<a>" . "Sorry, only JPG, JPEG, PNG & GIF files are allowed.</a><br>";
     $uploadOk = 0;
 }
@@ -83,6 +90,7 @@ if ($uploadOk == 0) {
         echo "<a>" . "The file '". basename( $_FILES["fileToUpload"]["name"]). "' has been uploaded.</a><br>";
         list($width, $height) = getimagesize($target_file) ;
         echo "<a>" . "Image size is $width x $height</a><br>";
+        shell_exec('aws s3 sync /var/www/html/uploads/ s3://rekognitiontest174/ ');
     } else {
         echo "<a>" . "Sorry, there was an error uploading your file.</a><br>"; 
     }

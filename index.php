@@ -1,5 +1,4 @@
 <?php
-include "/vendor/autoload.php";
 include "../inc/dbinfo.inc";
 session_start();
 ?>
@@ -57,7 +56,7 @@ session_start();
         <div class="file-field input-field">
           <div class="btn">
             <span>File</span>
-            <input type="file" name="fileToUpload" id="fileToUpload">
+            <input type="file" name="fileToUpload" id="fileToUpload" required >
           </div>
           <div class="file-path-wrapper">
             <input class="file-path validate" type="text">
@@ -108,6 +107,7 @@ session_start();
   <script>
   function onSignIn(googleUser) {
 
+    
     var profile = googleUser.getBasicProfile();
     console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
     console.log('Name: ' + profile.getName());
@@ -115,13 +115,6 @@ session_start();
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 
     var id_token = googleUser.getAuthResponse().id_token;
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/signin.php');
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function() {
-      console.log('Signed in as: ' + xhr.responseText);
-    };
-    xhr.send('idtoken=' + id_token);
   }
   </script>
 
@@ -131,7 +124,6 @@ session_start();
     auth2.signOut().then(function () {
       console.log('User signed out.');
     });
-    require_once '/path/to/your-project/vendor/autoload.php';
   }
   </script>
 
