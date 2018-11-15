@@ -121,18 +121,19 @@ session_start();
 
     var id_token = googleUser.getAuthResponse().id_token;
     
-    if( id_token == <?php $_GET['id_token']?> ){
-    alert("tokens aren't the same");
-    }
-    else {
-    window.location.replace('/dashboard.php?id_token=' + id_token);
-    }
+    //THIS PAGE NEEDS TO BE REMADE AS THE DASHBOARD, NEED A SPLASH PAGE
+    // if( id_token == <?php $_GET['id_token']?> ){
+    // alert("tokens aren't the same");
+    // }
+    // else {
+    // window.location.replace('/dashboard.php?id_token=' + id_token);
+    // }
 	
-    <?php
-    $CLIENT_ID = '773465469592-70tepenvk2lc7sbhs1d1k5i98k0gdp09.apps.googleusercontent.com';
-    $id_token = $_GET['id_token'];
+    // <php
+    // $CLIENT_ID = '773465469592-70tepenvk2lc7sbhs1d1k5i98k0gdp09.apps.googleusercontent.com';
+    // $id_token = $_GET['id_token'];
     
-    ?>
+    // >
     
   }
   </script>
