@@ -4,8 +4,9 @@ CS 174 Final Project - Imagine Images
 -->
 <?php
 include "../inc/dbinfo.inc";
+require_once 'vendor/autoload.php';
 session_start();
-$_SESSION["favnumber"] = random_int(-1000, 1000);
+
 ?>
 
 <!DOCTYPE html>
@@ -112,7 +113,6 @@ $_SESSION["favnumber"] = random_int(-1000, 1000);
   <script>
   function onSignIn(googleUser) {
 
-    
     var profile = googleUser.getBasicProfile();
     console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
     console.log('Name: ' + profile.getName());
@@ -120,6 +120,20 @@ $_SESSION["favnumber"] = random_int(-1000, 1000);
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 
     var id_token = googleUser.getAuthResponse().id_token;
+    
+    if( id_token == <?php $_GET['id_token']?> ){
+    alert("tokens aren't the same");
+    }
+    else {
+    window.location.replace('/dashboard.php?id_token=' + id_token);
+    }
+	
+    <?php
+    $CLIENT_ID = '773465469592-70tepenvk2lc7sbhs1d1k5i98k0gdp09.apps.googleusercontent.com';
+    $id_token = $_GET['id_token'];
+    
+    ?>
+    
   }
   </script>
 
