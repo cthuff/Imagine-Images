@@ -1,3 +1,8 @@
+<!--Created by Craig Huff
+11/14/18
+CS 174 Final Project - Imagine Images
+-->
+
 <?php
 include "../inc/dbinfo.inc";
 session_start();

@@ -1,6 +1,11 @@
+<!--Created by Craig Huff
+11/14/18
+CS 174 Final Project - Imagine Images
+-->
 <?php
 include "../inc/dbinfo.inc";
 session_start();
+$_SESSION["favnumber"] = random_int(-1000, 1000);
 ?>
 
 <!DOCTYPE html>

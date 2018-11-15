@@ -1,3 +1,7 @@
+<!--Created by Craig Huff
+11/14/18
+CS 174 Final Project - Imagine Images
+-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -95,37 +99,22 @@ if ($uploadOk == 0) {
         echo "<a>" . "Sorry, there was an error uploading your file.</a><br>"; 
     }
 
-    // #####################################
-    // #          MySQL calls 
-    // #####################################
-
-    // Create connection
-    $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
-    // Check connection
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
+    $script = 'aws rekognition detect-labels --image \'{"S3Object":{"Bucket":"rekognitiontest174","Name":"' . $target_name . '"}}\' --region us-west-2 ';
+    $rekognize = shell_exec($script);
+    $labels_found = json_decode($rekognize,true);
+  
+    echo "<img style='display: block; margin-left: auto; margin-right: auto;' width='650' src='$target_file'>";
+    echo "<a> Check the boxes of categories that apply to this image </a>";
+    echo (' <form action="#"> <p> ');
+    for($i = 0; $i < count($labels_found['Labels']); $i++){
+           $category = $labels_found['Labels'][$i]['Name'];
+           echo("<label> <input type='checkbox' display='inline-block' class='filled-in'/><span> $category &nbsp;&nbsp;&nbsp; </span> </label> ");
     }
-
-    // Select database
-    // $sql = "USE IMAGINEIMAGES";
-    // mysqli_query($conn, $sql);
-
-    // #####################################
-    // #
-    // # THE USER ID WILL BE CHANGED WHEN 
-    // # GOOGLE SIGN-IN IS FULLY IMPLEMENTED
-    // #
-    // #####################################
-
-    $sql = "INSERT INTO UploadedImages (user_id, image_name, filepath) values (10, '$target_name', '$target_file')";
-    mysqli_query($conn, $sql);
-    mysqli_close($conn);
-}
-        if($uploadOk == 1)
-        echo "<img style='display: block; margin-left: auto; margin-right: auto;' width='650' src='$target_file'>"; 
-?>
+    echo ('</p> </form>');
+  }
+  ?>
     <br>
-    <a class="waves-effect waves-light btn-large" style="display: block; margin-left: auto; margin-right: auto;" href="/">Home</a>
+    <a class="waves-effect waves-light btn-large" style="display: block; margin-left: auto; margin-right: auto;" onclick="goHome()" href="/">Home</a>
     </div>
     
 <div class="section no-pad-bot" id="index-banner">
@@ -142,6 +131,37 @@ function signOut() {
   auth2.signOut().then(function () {
     console.log('User signed out.');
   });
+}
+</script>
+
+<script>
+function goHome(){
+  alert("test");  
+<?php
+    // #####################################
+    // #          MySQL calls 
+    // #####################################
+
+    // Create connection
+    $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+    // Check connection
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    // #####################################
+    // #
+    // # THE USER ID WILL BE CHANGED WHEN 
+    // # GOOGLE SIGN-IN IS FULLY IMPLEMENTED
+    // #
+    // #####################################
+
+    $sql = "INSERT INTO UploadedImages (user_id, image_name, filepath) values (10, '$target_name', '$target_file')";
+    mysqli_query($conn, $sql);
+    mysqli_close($conn);
+  ?>
+
+
 }
 </script>
 
