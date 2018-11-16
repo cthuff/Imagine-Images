@@ -56,22 +56,31 @@ session_start();
     </div>
   </nav>
   <div class="container">
-    <div class="section">
-      <form action="upload.php" method="post" enctype="multipart/form-data">
-        Select image to upload:
-        <div class="file-field input-field">
-          <div class="btn">
-            <span>File</span>
-            <input type="file" name="fileToUpload" id="fileToUpload" required >
-          </div>
-          <div class="file-path-wrapper">
-            <input class="file-path validate" type="text">
-          </div>
-        </div>
-          <input class = "btn" type="submit" value="Upload Image" name="submit">
-      </form>
-
-      <br>
+       <div class="section">
+       	    <form action="upload.php" method="post" enctype="multipart/form-data">
+       	    <h5>Select image to upload:</h5>
+	    <div class="file-field input-field">
+            	 <div class="btn waves-effect waves-light light-blue" width="75px">
+            	      &nbsp;&nbsp;<span>File</span>&nbsp;&nbsp;
+            	      <input type="file" name="fileToUpload" id="fileToUpload" required >
+          	 </div>
+          	 <div class="file-path-wrapper">
+            	      <input class="file-path validate disabled" type="text">
+          	 </div>
+	    </div>
+	    <div class="row">
+	    	 <div class="input-field col s10" style="padding:0px;" >
+	       	      <input placeholder="Enter a new name for the image" name="newFileName" id="newFileName" type="text" class="validate" pattern="[a-zA-Z0-9-_.]+" >
+                      <label style="margin-left:-10px;"for="newFileName">Image Name</label>
+		      <span class="helper-text" data-error="Can't Have any Spaces" data-success="Great Name!"></span>
+               	 </div>
+	    </div>
+        <button class = "btn waves-effect waves-light light-blue" type="submit"name="submit"> Upload Image
+		<i class="material-icons right">cloud_upload</i>
+	</button>
+	</form>
+   </div>
+      
       <?php
         $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
         // Check connection
@@ -99,7 +108,7 @@ session_start();
       <br>
 
       <!-- Dropdown Trigger -->
-      <a id="deleteButton" class='dropdown-trigger btn' action="delete.php" data-target='deleteDropdown'>Delete An Uploaded Image</a>
+      <a id="deleteButton" class='dropdown-trigger btn waves-effect waves-light light-blue' action="delete.php" data-target='deleteDropdown'>Delete An Uploaded Image</a>
       <!-- Dropdown Structure -->
       <ul id='deleteDropdown' class='dropdown-content'> 
       </ul>
@@ -122,7 +131,7 @@ session_start();
     var id_token = googleUser.getAuthResponse().id_token;
     
     //THIS PAGE NEEDS TO BE REMADE AS THE DASHBOARD, NEED A SPLASH PAGE
-    // if( id_token == <?php $_GET['id_token']?> ){
+    // if( id_token == <php $_GET['id_token']?> ){
     // alert("tokens aren't the same");
     // }
     // else {
@@ -133,7 +142,7 @@ session_start();
     // $CLIENT_ID = '773465469592-70tepenvk2lc7sbhs1d1k5i98k0gdp09.apps.googleusercontent.com';
     // $id_token = $_GET['id_token'];
     
-    // >
+    //?>
     
   }
   </script>

@@ -41,18 +41,19 @@ CS 174 Final Project - Imagine Images
 <?php
 include "../inc/dbinfo.inc";
 
-$target_name = basename($_FILES["fileToUpload"]["name"]);
+$target_name = preg_replace('/\s+/', '', basename($_FILES["fileToUpload"]["name"]));  
 $target_dir = "uploads/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+echo $_POST["newFileName"];
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
 
   if ($_FILES["fileToUpload"]["error"] > 0)
    {
-   echo "Apologies, an error has occurred.";
-   echo "Error Code: " . $_FILES["fileToUpload"]["error"];
-}
+   echo "Apologies, an error has occurred.<br>";
+   echo "Error Code: " . $_FILES["fileToUpload"]["error"] . "<br>";
+   }
 
 // Check if image file is a actual image or fake image
 if($target_dir != $target_file){
