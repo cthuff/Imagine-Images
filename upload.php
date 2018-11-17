@@ -10,6 +10,7 @@ CS 174 Final Project - Imagine Images
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
   <meta name="google-signin-client_id" content="773465469592-70tepenvk2lc7sbhs1d1k5i98k0gdp09.apps.googleusercontent.com">
   <title>Imagine Images</title>
   <script src="https://apis.google.com/js/platform.js"></script>
@@ -23,7 +24,7 @@ CS 174 Final Project - Imagine Images
 </head>
 <body>
   
-  <nav class="light-blue lighten-1" style="line-height: 0px"role="navigation">
+  <nav class="light-blue" style="line-height: 0px"role="navigation">
     <div class="nav-wrapper" ><a id="logo-container" href="/" class="brand-logo center" style ="padding-top:30px;">Imagine Images</a>
 
     <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -41,6 +42,11 @@ CS 174 Final Project - Imagine Images
 <?php
 include "../inc/dbinfo.inc";
 
+if($_SESSION["homeURL"] == "/"){
+echo '<meta http-equiv="refresh" content="0; url=/">';
+exit(0);
+}
+  
 $target_name = preg_replace('/\s+/', '', basename($_FILES["fileToUpload"]["name"]));  
 $target_dir = "uploads/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
@@ -115,7 +121,7 @@ if ($uploadOk == 0) {
   }
   ?>
     <br>
-    <a class="waves-effect waves-light btn-large" style="display: block; margin-left: auto; margin-right: auto;" onclick="goHome()" href="/">Home</a>
+    <a class="waves-effect waves-light btn-large" style="display: block; margin-left: auto; margin-right: auto;" onclick="goHome()" href= <?php echo($_SESSION["homeURL"]); ?> >Home</a>
     </div>
     
 <div class="section no-pad-bot" id="index-banner">
@@ -131,7 +137,7 @@ function signOut() {
   var auth2 = gapi.auth2.getAuthInstance();
   auth2.signOut().then(function () {
     console.log('User signed out.');
-  });
+});
 }
 </script>
 
@@ -161,8 +167,6 @@ function goHome(){
     mysqli_query($conn, $sql);
     mysqli_close($conn);
   ?>
-
-
 }
 </script>
 

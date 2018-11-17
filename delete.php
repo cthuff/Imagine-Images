@@ -7,6 +7,11 @@ CS 174 Final Project - Imagine Images
 include "../inc/dbinfo.inc";
 session_start();
 
+if($_SESSION["homeURL"] == "/"){
+echo '<meta http-equiv="refresh" content="0; url=/">';
+exit(0);
+}
+
 $filename = $_POST['filename'];
 shell_exec("rm uploads/" . $filename );
 shell_exec('aws s3 sync /var/www/html/uploads/ s3://rekognitiontest174/ --delete ');
@@ -44,6 +49,7 @@ mysqli_close($conn);
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
   <meta name="google-signin-client_id" content="773465469592-70tepenvk2lc7sbhs1d1k5i98k0gdp09.apps.googleusercontent.com">
   <title>Imagine Images</title>
   <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -57,7 +63,7 @@ mysqli_close($conn);
 </head>
 <body>
   
-  <nav class="light-blue lighten-1" style="line-height: 0px"role="navigation">
+  <nav class="light-blue" style="line-height: 0px"role="navigation">
     <div class="nav-wrapper" ><a id="logo-container" href="/" class="brand-logo center" style ="padding-top:30px;">Imagine Images</a>
 
     <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -72,7 +78,7 @@ mysqli_close($conn);
     <div class="section">
 
     <h3><a> <?php echo "You've removed the image:<br>" . $filename ; ?> </a></h3>
-<a class="waves-effect waves-light btn-large" style="display: block; margin-left: auto; margin-right: auto;" href="/">Home</a>
+<a class="waves-effect waves-light btn-large" style="display: block; margin-left: auto; margin-right: auto;" href=<?php echo $_SESSION["homeURL"];?> >Home</a>
     </div>
     
 <div class="section no-pad-bot" id="index-banner">
