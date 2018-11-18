@@ -11,7 +11,11 @@ if($_SESSION["homeURL"] == "/"){
 echo '<meta http-equiv="refresh" content="0; url=/">';
 exit(0);
 }
+
+if (strpos($_SERVER['REQUEST_URI'], '/dashboard.php?id_token') !== false){
 $_SESSION['token'] = $_GET['id_token'];
+echo '<script> $( "#" ).load( "upload_image.php?name=' . $target_name . '&email=' . $target_file . '&token=", function() { }); </script>';
+}
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +46,6 @@ $_SESSION['token'] = $_GET['id_token'];
     var instances = M.Dropdown.init(elems);
   });
   </script>
-
 </head>
 <body>
   
@@ -54,8 +57,8 @@ $_SESSION['token'] = $_GET['id_token'];
     <div class="nav-wrapper" >
     <a id="logo-container" href=<?php echo $_SESSION["homeURL"];?> class="brand-logo amber-text text-accent-2 center hide-on-small-and-down" style="padding-top:30px;">Imagine Images</a>
     <ul id="nav-mobile" class="right">
-        <li><div class="right g-signin2 hide-on-small-and-down" style ="padding-top:14px; padding-right:30px;"data-onsuccess="onSignIn"></div></li>
-	<li><div class="right g-signin2 hide-on-med-and-up" style ="padding-top:10px; padding-right:10px"data-onsuccess="onSignIn"></div></li>
+        <li><div class="right btn amber hide-on-small-and-down" style="margin-top:14px; margin-right:30px;" onclick="signOut()"><span class="black-text">Sign Out</span></div></li>
+	<li><div class="right btn amber hide-on-med-and-up" style ="margin-top:10px; margin-right:10px" onclick="signOut()"><span class="black-text">Sign Out</span></div></li>
       </ul>
     <ul>
         <li><i class="large material-icons left hide-on-small-and-down" style="padding-left:30px;">camera_roll</i></li>
@@ -138,22 +141,7 @@ $_SESSION['token'] = $_GET['id_token'];
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 
     var id_token = googleUser.getAuthResponse().id_token;
-    
-    //THIS PAGE NEEDS TO BE REMADE AS THE DASHBOARD, NEED A SPLASH PAGE
-    // if( id_token == <php $_GET['id_token']?> ){
-    // alert("tokens aren't the same");
-    // }
-    // else {
-    // window.location.replace('/dashboard.php?id_token=' + id_token);
-    // }
-	
-    // <php
-    // $CLIENT_ID = '773465469592-70tepenvk2lc7sbhs1d1k5i98k0gdp09.apps.googleusercontent.com';
-    // $id_token = $_GET['id_token'];
-    
-    //?>
-    
-  }
+    }
   </script>
 
   <script>
@@ -162,6 +150,7 @@ $_SESSION['token'] = $_GET['id_token'];
     auth2.signOut().then(function () {
       console.log('User signed out.');
     });
+    window.location.replace('/);
   }
   </script>
 
@@ -194,9 +183,6 @@ $_SESSION['token'] = $_GET['id_token'];
   }
 
   uploadedFiles();
-
-  </script>
-  
 
 </body>
 
