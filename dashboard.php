@@ -11,6 +11,7 @@ if($_SESSION["homeURL"] == "/"){
 echo '<meta http-equiv="refresh" content="0; url=/">';
 exit(0);
 }
+$_SESSION['token'] = $_GET['id_token'];
 ?>
 
 <!DOCTYPE html>

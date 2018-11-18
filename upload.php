@@ -135,14 +135,14 @@ if ($uploadOk == 0) {
        echo (' <form id="test" action="#"> <p> ');
        for($i = 0; $i < count($labels_found['Labels']); $i++){
            $category = $labels_found['Labels'][$i]['Name'];
-           echo("<label> <input type='checkbox' display='inline-block' class='filled-in'/><span> $category &nbsp;&nbsp;&nbsp; </span> </label> ");
+           echo("<label> <input id='cat_$i' type='checkbox' display='inline-block' class='filled-in'/><span> $category &nbsp;&nbsp;&nbsp; </span> </label> ");
        }
        echo ('</p> </form>');
     }
   }
   ?>
     <br>
-    <a class="waves-effect waves-dark amber btn-large" style="display: block; margin-left: auto; margin-right: auto;" onclick="goHome()" href='<?php echo $_SESSION["homeURL"]; ?>' >Home</a>
+    <a class="waves-effect waves-dark amber btn-large" style="display: block; margin-left: auto; margin-right: auto;" onclick="goHome()" >Home</a>
     </div>
     
 <div class="section no-pad-bot" id="index-banner">
@@ -160,31 +160,11 @@ function signOut() {
 
 <script>
 function goHome(){
-  $( "#test" ).load( "test.php", function() {
-  alert( "Load was performed." );
-});
-<?php
-    // #####################################
-    // #          MySQL calls 
-    // #####################################
-
-    // Create connection
-    $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
-    // Check connection
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
-
-    // #####################################
-    // #
-    // # THE USER ID WILL BE CHANGED WHEN 
-    // # GOOGLE SIGN-IN IS FULLY IMPLEMENTED
-    // #
-    // #####################################
-
-    $sql = "INSERT INTO UploadedImages (user_id, image_name, filepath) values (10, '$target_name', '$target_file')";
-    mysqli_query($conn, $sql);
-    mysqli_close($conn);
+  <?php
+  if($uploadOk == 1){
+      echo '$( "#test" ).load( "upload_image.php?name=' . $target_name . '&path=' . $target_file . '", function() { });';
+   }
+   echo ("<br>window.location.replace('/dashboard.php');");
   ?>
 }
 </script>
