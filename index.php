@@ -26,7 +26,7 @@ $_SESSION["homeURL"] = "/";
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css" type="text/css" media="screen,projection"/> 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
+ 
   <!-- Compiled and minified JavaScript -->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/init.js"></script>
@@ -51,6 +51,7 @@ $_SESSION["homeURL"] = "/";
     @media only screen and (max-device-width: 970px) {
     .parallax1 {
         background-attachment: scroll;
+	height: 300px;
     }
 }
   </style>
@@ -59,11 +60,13 @@ $_SESSION["homeURL"] = "/";
   <header>
   <nav class="light-blue" style="line-height: 0px"role="navigation">
     <ul id="nav-mobile" class="right">
-        <li><div class="right g-signin2" style ="padding-top:14px; padding-right:30px;"data-onsuccess="onSignIn"></div></li>
-      </ul>
+        <li><div class="right g-signin2 hide-on-small-and-down" style ="padding-top:14px; padding-right:30px;"data-onsuccess="onSignIn"></div></li>
+        <li><div class="right g-signin2 hide-on-med-and-up" style ="padding-top:10px; padding-right:10px"data-onsuccess="onSignIn"></div></li>
+    </ul>
     <ul>
-        <li><i class="large material-icons left" style="padding-left:30px;">camera_roll</i></li>
-      </ul>
+        <li><i class="large material-icons left hide-on-small-and-down" style="padding-left:30px;">camera_roll</i></li>
+        <li><i class="large material-icons left hide-on-med-and-up" style="padding-left:10px;">camera_roll</i></li>
+    </ul>
     </div>
   </nav>
  </header>

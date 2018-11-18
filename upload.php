@@ -1,7 +1,17 @@
 <!--Created by Craig Huff
 11/14/18
 CS 174 Final Project - Imagine Images
--->
+  -->
+<?php
+include "../inc/dbinfo.inc";
+session_start();
+
+if($_SESSION["homeURL"] == "/"){
+echo '<meta http-equiv="refresh" content="0; url=/">';
+exit(0);
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,18 +30,25 @@ CS 174 Final Project - Imagine Images
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/> 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
-
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="js/init.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/materialize.min.js"></script>
+  
 </head>
 <body>
-  
   <nav class="light-blue" style="line-height: 0px"role="navigation">
-    <div class="nav-wrapper" ><a id="logo-container" href="/" class="brand-logo center" style ="padding-top:30px;">Imagine Images</a>
+    <div class="nav-wrapper" >
+      <a id="logo-container" href=<?php echo ($_SESSION["homeURL"]);?> class="brand-logo amber-text text-accent-2 center hide-on-small-and-down" style="padding-top:30px;">Imagine Images</a>
 
-    <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><div class="right g-signin2" style ="padding-top:14px; padding-right:30px;"data-onsuccess="onSignIn"></div></li>
+    <ul id="nav-mobile" class="right">
+        <li><div class="right g-signin2 hide-on-small-and-down" style ="padding-top:14px; padding-right:30px;"data-onsuccess="onSignIn"></div></li>
+        <li><div class="right g-signin2 hide-on-med-and-up" style ="padding-top:10px; padding-right:10px"data-onsuccess="onSignIn"></div></li>
       </ul>
-    <ul class="hide-on-med-and-down">
-        <li><i class="large material-icons left" style="padding-left:30px;">camera_roll</i></li>
+    <ul>
+         <li><i class="large material-icons left hide-on-small-and-down" style="padding-left:30px;">camera_roll</i></li>
+         <li><i class="large material-icons left hide-on-med-and-up" style="padding-left:13px;">camera_roll</i></li>
       </ul>
     </div>
   </nav>
@@ -40,19 +57,20 @@ CS 174 Final Project - Imagine Images
 
 
 <?php
-include "../inc/dbinfo.inc";
-
-if($_SESSION["homeURL"] == "/"){
-echo '<meta http-equiv="refresh" content="0; url=/">';
-exit(0);
-}
-  
-$target_name = preg_replace('/\s+/', '', basename($_FILES["fileToUpload"]["name"]));  
+    
 $target_dir = "uploads/";
-$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-echo $_POST["newFileName"];
 $uploadOk = 1;
+$target_name = preg_replace('/\s+/', '', basename($_FILES["fileToUpload"]["name"]));
+$target_file = $target_dir . $target_name;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+if ($_POST["newFileName"] != ""){
+    $target_name = $_POST["newFileName"] . "." .$imageFileType;
+    $target_file = $target_dir . $target_name;
+}
+
+//Taken from W3Schools
+//https://www.w3schools.com/PHP/php_file_upload.asp
 
 
   if ($_FILES["fileToUpload"]["error"] > 0)
@@ -98,7 +116,7 @@ if ($uploadOk == 0) {
 // if everything is ok, try to upload file
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        echo "<a>" . "The file '". basename( $_FILES["fileToUpload"]["name"]). "' has been uploaded.</a><br>";
+        echo "<a>" . "The file '". $target_name . "' has been uploaded.</a><br>";
         list($width, $height) = getimagesize($target_file) ;
         echo "<a>" . "Image size is $width x $height</a><br>";
         shell_exec('aws s3 sync /var/www/html/uploads/ s3://rekognitiontest174/ ');
@@ -111,26 +129,25 @@ if ($uploadOk == 0) {
     $labels_found = json_decode($rekognize,true);
   
     echo "<img style='display: block; margin-left: auto; margin-right: auto;' width='650' src='$target_file'>";
-    echo "<a> Check the boxes of categories that apply to this image </a>";
-    echo (' <form action="#"> <p> ');
-    for($i = 0; $i < count($labels_found['Labels']); $i++){
+    
+    if (count($labels_found['Labels'])) {
+       echo "<a> Check the boxes of categories that apply to this image </a>";
+       echo (' <form id="test" action="#"> <p> ');
+       for($i = 0; $i < count($labels_found['Labels']); $i++){
            $category = $labels_found['Labels'][$i]['Name'];
            echo("<label> <input type='checkbox' display='inline-block' class='filled-in'/><span> $category &nbsp;&nbsp;&nbsp; </span> </label> ");
+       }
+       echo ('</p> </form>');
     }
-    echo ('</p> </form>');
   }
   ?>
     <br>
-    <a class="waves-effect waves-light btn-large" style="display: block; margin-left: auto; margin-right: auto;" onclick="goHome()" href= <?php echo($_SESSION["homeURL"]); ?> >Home</a>
+    <a class="waves-effect waves-dark amber btn-large" style="display: block; margin-left: auto; margin-right: auto;" onclick="goHome()" href='<?php echo $_SESSION["homeURL"]; ?>' >Home</a>
     </div>
     
 <div class="section no-pad-bot" id="index-banner">
   <div class="container"></div>
 </div>
-
-
-<!-- Compiled and minified JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
 <script>
 function signOut() {
@@ -143,7 +160,9 @@ function signOut() {
 
 <script>
 function goHome(){
-  alert("test");  
+  $( "#test" ).load( "test.php", function() {
+  alert( "Load was performed." );
+});
 <?php
     // #####################################
     // #          MySQL calls 

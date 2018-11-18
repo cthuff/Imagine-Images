@@ -51,7 +51,7 @@ exit(0);
 
   <nav class="light-blue" style="line-height: 0px"role="navigation">
     <div class="nav-wrapper" >
-    <a id="logo-container" href="/" class="brand-logo amber-text text-accent-2 center hide-on-small-and-down" style="padding-top:30px;">Imagine Images</a>
+    <a id="logo-container" href=<?php echo $_SESSION["homeURL"];?> class="brand-logo amber-text text-accent-2 center hide-on-small-and-down" style="padding-top:30px;">Imagine Images</a>
     <ul id="nav-mobile" class="right">
         <li><div class="right g-signin2 hide-on-small-and-down" style ="padding-top:14px; padding-right:30px;"data-onsuccess="onSignIn"></div></li>
 	<li><div class="right g-signin2 hide-on-med-and-up" style ="padding-top:10px; padding-right:10px"data-onsuccess="onSignIn"></div></li>
@@ -66,7 +66,7 @@ exit(0);
        <div class="section">
        	    <h4 class="header center amber-text text-accent-2 hide-on-med-and-up" style="padding:0px; padding-bottom:15px;">Imagine Images</h4>
        	    <form action="upload.php" method="post" enctype="multipart/form-data">
-       	    <h5>Select image to upload:</h5>
+       	    <h5 class="light-blue-text">Select image to upload:</h5>
 	    <div class="file-field input-field">
             	 <div class="btn waves-effect waves-dark amber" width="75px">
             	      &nbsp;&nbsp;<span>File</span>&nbsp;&nbsp;
@@ -78,9 +78,9 @@ exit(0);
 	    </div>
 	    <div class="row">
 	    	 <div class="input-field col s10" style="padding:0px;" >
-	       	      <input placeholder="Enter a new name for the image" name="newFileName" id="newFileName" type="text" class="validate" pattern="[a-zA-Z0-9-_.]+" >
+	       	      <input placeholder="Enter a new name for the image" name="newFileName" id="newFileName" type="text" class="validate" pattern="[a-zA-Z0-9]+([-_]*[a-zA-Z0-9]+)*" >
                       <label style="margin-left:-10px;"for="newFileName">Image Name</label>
-		      <span class="helper-text" data-error="Can't Have any Spaces" data-success="Great Name!"></span>
+		      <span class="helper-text" data-error="Invalid Characters in Name" data-success="Great Name!"></span>
                	 </div>
 	    </div>
         <button class = "btn waves-effect waves-dark amber" type="submit"name="submit"> Upload Image
@@ -134,7 +134,6 @@ exit(0);
     var profile = googleUser.getBasicProfile();
     console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
     console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 
     var id_token = googleUser.getAuthResponse().id_token;
