@@ -6,7 +6,8 @@ CS 174 Final Project - Imagine Images
 include "../inc/dbinfo.inc";
 session_start();
 
-if($_SESSION["homeURL"] == "/"){
+error_log($_SESSION["homeURL"]);
+if($_SESSION["homeURL"] !== "/dashboard.php"){
 echo '<meta http-equiv="refresh" content="0; url=/">';
 exit(0);
 }
@@ -40,7 +41,7 @@ exit(0);
 <body>
   <nav class="light-blue" style="line-height: 0px"role="navigation">
     <div class="nav-wrapper" >
-      <a id="logo-container" href=<?php echo ($_SESSION["homeURL"]);?> class="brand-logo amber-text text-accent-2 center hide-on-small-and-down" style="padding-top:30px;">Imagine Images</a>
+      <a id="logo-container" href='<?php echo ($_SESSION["homeURL"]);?>' class="brand-logo amber-text text-accent-2 center hide-on-small-and-down" style="padding-top:30px;">Imagine Images</a>
 
     <ul id="nav-mobile" class="right">
         <li><div class="right g-signin2 hide-on-small-and-down" style ="padding-top:14px; padding-right:30px;"data-onsuccess="onSignIn"></div></li>
@@ -127,14 +128,15 @@ if ($uploadOk == 0) {
     $script = 'aws rekognition detect-labels --image \'{"S3Object":{"Bucket":"rekognitiontest174","Name":"' . $target_name . '"}}\' --region us-west-2 ';
     $rekognize = shell_exec($script);
     $labels_found = json_decode($rekognize,true);
-  
+   // $_SESSION["categories"] = $labels_found;
     echo "<img style='display: block; margin-left: auto; margin-right: auto;' width='650' src='$target_file'>";
     
     if (count($labels_found['Labels'])) {
        echo "<a> Check the boxes of categories that apply to this image </a>";
        echo (' <form id="test" action="#"> <p> ');
-       for($i = 0; $i < count($labels_found['Labels']); $i++){
+       for($i = 0; $i < 5; $i++){
            $category = $labels_found['Labels'][$i]['Name'];
+	   $_SESSION["cat".$i] = $category;
            echo("<label> <input id='cat_$i' type='checkbox' display='inline-block' class='filled-in'/><span> $category &nbsp;&nbsp;&nbsp; </span> </label> ");
        }
        echo ('</p> </form>');
@@ -160,11 +162,12 @@ function signOut() {
 
 <script>
 function goHome(){
-  <?php
+
+<?php
   if($uploadOk == 1){
       echo '$( "#test" ).load( "upload_image.php?name=' . $target_name . '&path=' . $target_file . '", function() { });';
    }
-   echo ("<br>window.location.replace('/dashboard.php');");
+   echo ("window.location.replace('/dashboard.php');");
   ?>
 }
 </script>

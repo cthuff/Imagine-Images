@@ -4,6 +4,15 @@ include "../inc/dbinfo.inc";
 require_once 'vendor/autoload.php';
 session_start();
 
+
+// ############################
+// # THIS WORKS for categories
+// ############################
+
+//$categories = $_SESSION["cat1"];
+//$purchasable = $_SESSION["purchasable"];
+
+error_log($categories);
     // #####################################
     // #          MySQL calls
     // #####################################

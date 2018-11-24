@@ -8,13 +8,10 @@ require_once 'vendor/autoload.php';
 session_start();
 
 if($_SESSION["homeURL"] == "/"){
-echo '<meta http-equiv="refresh" content="0; url=/">';
-exit(0);
-}
-
-if (strpos($_SERVER['REQUEST_URI'], '/dashboard.php?id_token') !== false){
-$_SESSION['token'] = $_GET['id_token'];
-echo '<script> $( "#" ).load( "upload_image.php?name=' . $target_name . '&email=' . $target_file . '&token=", function() { }); </script>';
+    echo '<meta http-equiv="refresh" content="0; url=/">';
+    exit(0);
+} else {
+    $_SESSION["homeURL"] = "/dashboard.php";
 }
 ?>
 
@@ -25,11 +22,11 @@ echo '<script> $( "#" ).load( "upload_image.php?name=' . $target_name . '&email=
 
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="google-signin-client_id" content="773465469592-70tepenvk2lc7sbhs1d1k5i98k0gdp09.apps.googleusercontent.com">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
   <title>Imagine Images</title>
-  <script src="https://apis.google.com/js/platform.js"></script>
   
+  <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+  <meta name="google-signin-client_id" content="773465469592-70tepenvk2lc7sbhs1d1k5i98k0gdp09.apps.googleusercontent.com">
   <!-- CSS -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/> 
@@ -48,15 +45,22 @@ echo '<script> $( "#" ).load( "upload_image.php?name=' . $target_name . '&email=
   </script>
 </head>
 <body>
-  
+<?php
+if (strpos($_SERVER['REQUEST_URI'], '/dashboard.php?id_token') !== false){
+    $_SESSION['token'] = $_GET['id_token'];
+//    echo '<script> $( "#newUser" ).load( "upate_user.php?name=' . $target_name . '&email=' . $target_file . '&token=", function() { }); </script>';
+}
+?>
+<div id="newUser" style="display:none"></div>
 <form id="deleteForm" name="deleteForm" method="post" action="delete.php" method="post">
     <input type="hidden" name="filename" value="">
 </form>
 
   <nav class="light-blue" style="line-height: 0px"role="navigation">
     <div class="nav-wrapper" >
-    <a id="logo-container" href=<?php echo $_SESSION["homeURL"];?> class="brand-logo amber-text text-accent-2 center hide-on-small-and-down" style="padding-top:30px;">Imagine Images</a>
+    <a id="logo-container" href='<?php echo $_SESSION["homeURL"];?>' class="brand-logo amber-text text-accent-2 center hide-on-small-and-down" style="padding-top:30px;">Imagine Images</a>
     <ul id="nav-mobile" class="right">
+    	<li><div  style="display:none;" data-onsuccess="onSignIn"></div></li>
         <li><div class="right btn amber hide-on-small-and-down" style="margin-top:14px; margin-right:30px;" onclick="signOut()"><span class="black-text">Sign Out</span></div></li>
 	<li><div class="right btn amber hide-on-med-and-up" style ="margin-top:10px; margin-right:10px" onclick="signOut()"><span class="black-text">Sign Out</span></div></li>
       </ul>
@@ -74,7 +78,7 @@ echo '<script> $( "#" ).load( "upload_image.php?name=' . $target_name . '&email=
 	    <div class="file-field input-field">
             	 <div class="btn waves-effect waves-dark amber" width="75px">
             	      &nbsp;&nbsp;<span>File</span>&nbsp;&nbsp;
-            	      <input type="file" name="fileToUpload" id="fileToUpload" required >
+            	      <input type="file" name="fileToUpload" id="fileToUpload" required accept="image/png,image/jpg,image/jpeg" >
           	 </div>
           	 <div class="file-path-wrapper">
             	      <input class="file-path validate disabled" type="text">
@@ -126,7 +130,8 @@ echo '<script> $( "#" ).load( "upload_image.php?name=' . $target_name . '&email=
       </ul>
     </div>
     <br>
-  </div>
+    
+</div>
 
   <div class="section no-pad-bot" id="index-banner">
     <div class="container"></div>
@@ -145,12 +150,20 @@ echo '<script> $( "#" ).load( "upload_image.php?name=' . $target_name . '&email=
   </script>
 
   <script>
+  function init() {
+      gapi.load('auth2', function() {  });
+      gapi.auth2.init({client_id: "773465469592-70tepenvk2lc7sbhs1d1k5i98k0gdp09.apps.googleusercontent.com" });
+  }
+  </script>
+
+  <script>
   function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
       console.log('User signed out.');
     });
-    window.location.replace('/);
+    $( "#newUser" ).load( "logout.php", function() { });
+    window.location.replace('/');
   }
   </script>
 
@@ -160,7 +173,6 @@ echo '<script> $( "#" ).load( "upload_image.php?name=' . $target_name . '&email=
         document.deleteForm.filename.value = imgName;
         document.forms["deleteForm"].submit();
       }
-
   </script>
 
   <script>
@@ -183,7 +195,8 @@ echo '<script> $( "#" ).load( "upload_image.php?name=' . $target_name . '&email=
   }
 
   uploadedFiles();
-
+  </script>
+  
 </body>
 
 </html>
