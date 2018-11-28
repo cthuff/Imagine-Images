@@ -7,7 +7,8 @@ include "../inc/dbinfo.inc";
 require_once 'vendor/autoload.php';
 session_start();
 
-if($_SESSION["homeURL"] == "/"){
+
+if($_GET["id_token"] === ""){
     echo '<meta http-equiv="refresh" content="0; url=/">';
     exit(0);
 } else {
@@ -60,8 +61,8 @@ if (strpos($_SERVER['REQUEST_URI'], '/dashboard.php?id_token') !== false){
     <div class="nav-wrapper" >
     <a id="logo-container" href='<?php echo $_SESSION["homeURL"];?>' class="brand-logo amber-text text-accent-2 center hide-on-small-and-down" style="padding-top:30px;">Imagine Images</a>
     <ul id="nav-mobile" class="right">
-    	<li><div  style="display:none;" data-onsuccess="onSignIn"></div></li>
-        <li><div class="right btn amber hide-on-small-and-down" style="margin-top:14px; margin-right:30px;" onclick="signOut()"><span class="black-text">Sign Out</span></div></li>
+    	<li><div class="right g-signin2 hide-on-small-and-down" style ="display:none;" data-onsuccess="onSignIn"></div></li>
+    	<li><div class="right btn amber hide-on-small-and-down" style="margin-top:14px; margin-right:30px;" onclick="signOut()"><span class="black-text">Sign Out</span></div></li>
 	<li><div class="right btn amber hide-on-med-and-up" style ="margin-top:10px; margin-right:10px" onclick="signOut()"><span class="black-text">Sign Out</span></div></li>
       </ul>
     <ul>
@@ -150,14 +151,8 @@ if (strpos($_SERVER['REQUEST_URI'], '/dashboard.php?id_token') !== false){
   </script>
 
   <script>
-  function init() {
-      gapi.load('auth2', function() {  });
-      gapi.auth2.init({client_id: "773465469592-70tepenvk2lc7sbhs1d1k5i98k0gdp09.apps.googleusercontent.com" });
-  }
-  </script>
-
-  <script>
   function signOut() {
+    gapi.auth2.init();
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
       console.log('User signed out.');

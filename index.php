@@ -81,7 +81,7 @@ $_SESSION["homeURL"] = "/";
     </div>
         <div class="parallax1"></div>
 </div>
-
+<div id="newUser" style="display:none;"></div
 <div class="container">
     <div class="section">
 
@@ -110,7 +110,7 @@ $_SESSION["homeURL"] = "/";
                     <h2 class="center amber-text text-accent-2"><i class="material-icons">file_download</i></h2>
                     <h5 class="center">Search For Images</h5>
 
-                    <p class="light">Using achine learning from Amazon's Rekognition, there is an extensive amount of categories of photos for you to search.
+                    <p class="light">Using machine learning from Amazon's Rekognition, there is an extensive amount of categories of photos for you to search.
 		    The artist sets the price for the photo, and you can buy any available images. </p>
                 </div>
             </div>
@@ -148,7 +148,7 @@ $_SESSION["homeURL"] = "/";
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 
     var id_token = googleUser.getAuthResponse().id_token;
-    <?php $_SESSION["homeURL"] = "/dashboard.php";?>  
+    $( "#newUser" ).load( 'signin.php/?id_token=' + id_token , function() { });
     window.location.replace('/dashboard.php?id_token=' + id_token);
     
   }

@@ -12,7 +12,7 @@ session_start();
 //$categories = $_SESSION["cat1"];
 //$purchasable = $_SESSION["purchasable"];
 
-error_log($categories);
+//error_log($categories);
     // #####################################
     // #          MySQL calls
     // #####################################

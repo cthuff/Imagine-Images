@@ -77,8 +77,9 @@ mysqli_close($conn);
     	 <a id="logo-container" href=<?php echo $_SESSION["homeURL"];?>  class="brand-logo amber-text text-accent-2 center hide-on-small-and-down" style="padding-top:30px;">Imagine Images</a>
 
     <ul id="nav-mobile" class="right">
-    	<li><div class="right g-signin2 hide-on-small-and-down" style ="padding-top:14px; padding-right:30px;"data-onsuccess="onSignIn"></div></li>
-        <li><div class="right g-signin2 hide-on-med-and-up" style ="padding-top:10px; padding-right:10px"data-onsuccess="onSignIn"></div></li>
+    	<li><div class="right g-signin2 hide-on-small-and-down" style ="display:none;" data-onsuccess="onSignIn"></div></li>
+        <li><div class="right btn amber hide-on-small-and-down" style="margin-top:14px; margin-right:30px;" onclick="signOut()"><span class="black-text">Sign Out</span></div></li>
+        <li><div class="right btn amber hide-on-med-and-up" style ="margin-top:10px; margin-right:10px" onclick="signOut()"><span class="black-text">Sign Out</span></div></li>
     </ul>
     <ul>
         <li><i class="large material-icons left hide-on-small-and-down" style="padding-left:30px;">camera_roll</i></li>
@@ -98,13 +99,28 @@ mysqli_close($conn);
 </div>
 
 <script>
-function signOut() {
-  var auth2 = gapi.auth2.getAuthInstance();
-  auth2.signOut().then(function () {
-    console.log('User signed out.');
-  });
-}
-</script>
+  function onSignIn(googleUser) {
+
+    var profile = googleUser.getBasicProfile();
+    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log('Name: ' + profile.getName());
+    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+    var id_token = googleUser.getAuthResponse().id_token;
+    }
+  </script>
+
+  <script>
+  function signOut() {
+    gapi.auth2.init();
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+    $( "#newUser" ).load( "logout.php", function() { });
+    window.location.replace('/');
+  }
+  </script>
 
 </body>
 
