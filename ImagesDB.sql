@@ -1,7 +1,6 @@
 --Craig Huff 11/10/18 Project 3 - Part 1
 
 -- These are the SQL commands used to generate the database for the start of the project. 
--- This configuration is not final and will be updated as new features are added accordingly.
 
 CREATE DATABASE IMAGINEIMAGES;
 
@@ -11,26 +10,35 @@ CREATE TABLE IF NOT EXISTS Users (
   id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(50) NOT NULL,
   email VARCHAR(50),
-  reg_date TIMESTAMP,
   token VARCHAR(255),
-  sub INT(20) UNIQUE
+  sub CHAR(25) UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS UploadedImages (
   image_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   user_id INT(20) UNSIGNED NOT NULL,
-  image_name VARCHAR(20) NOT NULL UNIQUE,
+  image_name VARCHAR(35) NOT NULL UNIQUE,
   filepath VARCHAR(50) NOT NULL
+  purchaseable INT(8) UNSIGNED NOT NULL;
 );
 
 CREATE TABLE IF NOT EXISTS PurchasedImages (
   image_id INT(6) UNSIGNED PRIMARY KEY,
   publisher_id INT(20) UNSIGNED NOT NULL,
   buyer_id INT(20) UNSIGNED NOT NULL,
-  image_name VARCHAR(20) NOT NULL UNIQUE,
+  image_name VARCHAR(35) NOT NULL UNIQUE,
   filepath VARCHAR(50) NOT NULL
 );
 
+
+CREATE TABLE IF NOT EXISTS ImageCategories (
+  name VARCHAR(35) NOT NULL PRIMARY KEY,
+  cat0 VARCHAR(20),
+  cat1 VARCHAR(20),
+  cat2 VARCHAR(20),
+  cat3 VARCHAR(20),
+  cat4 VARCHAR(20)
+);
 
 SELECT image_name FROM UploadedImages;
 

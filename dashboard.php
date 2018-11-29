@@ -7,7 +7,6 @@ include "../inc/dbinfo.inc";
 require_once 'vendor/autoload.php';
 session_start();
 
-
 if($_GET["id_token"] === ""){
     echo '<meta http-equiv="refresh" content="0; url=/">';
     exit(0);
@@ -23,21 +22,22 @@ if($_GET["id_token"] === ""){
 
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+  
   <title>Imagine Images</title>
   
-  <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
-  <meta name="google-signin-client_id" content="773465469592-70tepenvk2lc7sbhs1d1k5i98k0gdp09.apps.googleusercontent.com">
   <!-- CSS -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/> 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
   <!-- Compiled and minified JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/materialize.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="js/init.js"</script>
 
+  <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+  <meta name="google-signin-client_id" content="773465469592-70tepenvk2lc7sbhs1d1k5i98k0gdp09.apps.googleusercontent.com">
   <script>
   document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.dropdown-trigger');
@@ -85,19 +85,19 @@ if (strpos($_SERVER['REQUEST_URI'], '/dashboard.php?id_token') !== false){
             	      <input class="file-path validate disabled" type="text">
           	 </div>
 	    </div>
-	    <div class="row">
+	    <div class="row" style="margin-bottom:0px;">
 	    	 <div class="input-field col s10" style="padding:0px;" >
 	       	      <input placeholder="Enter a new name for the image" name="newFileName" id="newFileName" type="text" class="validate" pattern="[a-zA-Z0-9]+([-_]*[a-zA-Z0-9]+)*" >
                       <label style="margin-left:-10px;"for="newFileName">Image Name</label>
 		      <span class="helper-text" data-error="Invalid Characters in Name" data-success="Great Name!"></span>
                	 </div>
 	    </div>
-        <button class = "btn waves-effect waves-dark amber" type="submit"name="submit"> Upload Image
+        <button class="btn waves-effect waves-dark amber" type="submit"name="submit"> Upload Image
 		<i class="material-icons right">cloud_upload</i>
 	</button>
 	</form>
    </div>
-      
+   <div class="section">   
       <?php
         $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
         // Check connection
@@ -120,7 +120,7 @@ if (strpos($_SERVER['REQUEST_URI'], '/dashboard.php?id_token') !== false){
           }
           else {
             echo "No images have been uploaded yet";
-          }
+          }	  
       ?>
       <br>
 
@@ -131,13 +131,17 @@ if (strpos($_SERVER['REQUEST_URI'], '/dashboard.php?id_token') !== false){
       </ul>
     </div>
     <br>
-    
+    <button class="btn waves-effect waves-dark amber" onclick="window.location='/search.html'"> Search Images
+                <i class="material-icons right">search</i>
+    </button>
+
+    </div>
 </div>
 
   <div class="section no-pad-bot" id="index-banner">
     <div class="container"></div>
   </div>
- 
+
   <script>
   function onSignIn(googleUser) {
 
@@ -174,7 +178,7 @@ if (strpos($_SERVER['REQUEST_URI'], '/dashboard.php?id_token') !== false){
   function uploadedFiles() {
     var deleteList = document.getElementById("deleteDropdown");
     var items = <?php echo json_encode($image_names); ?> ;
-    var length = items.length; //<?php echo count($image_names); ?> ;
+    var length = items.length; 
 
     if(length > 0){
       for (var i = 0; i < length; i++) {

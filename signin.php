@@ -14,25 +14,28 @@ if ($payload) {
   $email = $payload['email'];
   $name = $payload['name'];
 
+  echo($name ."<br>");
+  echo($email ."<br>");
+  error_log($userid);
 //Upload User to Database
- $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+  $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
     // Check connection
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
 
-    $sql = "SELECT id FROM Users WHERE sub = '$user_id';
+    $sql = "SELECT id FROM Users WHERE sub = '$userid';";
     $results = mysqli_query($conn, $sql);
-    $row = $results->fetch_assoc()
+    $row = $results->fetch_assoc();
     
-    if(mysqli_num_rows($result) > 0) {
-    	$sql = "INSERT INTO UploadedImages (user_id, image_name, filepath) values (10, '$target_name', '$target_file')";
-    	mysqli_query($conn, $sql);
- 	
+    if($row) {
+    	$sql = "UPDATE Users SET token='$id_token' WHERE email='$email' AND sub='$userid'; ";
+	echo("UPDATE");
+	mysqli_query($conn, $sql);
     } else {
-      $sql = "INSERT INTO UploadedImages (user_id, image_name, filepath) values (10, '$target_name', '$target_file')";
-        mysqli_query($conn, $sql);
-        
+        $sql = "INSERT INTO Users (name, email, token , sub) values ('$name', '$email', '$id_token', $userid); ";
+        echo("INSERT");
+        mysqli_query($conn, $sql);	
     }
   mysqli_close($conn);
 } else {

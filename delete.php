@@ -30,10 +30,6 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Select database
-// $sql = "USE IMAGINEIMAGES";
-// mysqli_query($conn, $sql);
-
 // #####################################
 // # THE USER ID WILL BE CHANGED WHEN 
 // # GOOGLE SIGN-IN IS FULLY IMPLEMENTED
