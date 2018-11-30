@@ -15,9 +15,10 @@
 
   <!-- Compiled and minified JavaScript -->
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script src="js/init.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/materialize.min.js"></script>
-  <script src="js/init.js"</script>
+  
 
   <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
   <meta name="google-signin-client_id" content="773465469592-70tepenvk2lc7sbhs1d1k5i98k0gdp09.apps.googleusercontent.com">
@@ -26,4 +27,19 @@
 </head>
 <body>
   <a>This is coming soon</a>
+  <div class="containter"
+       <div class="row">
+    <div class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">textsms</i>
+          <input type="text" id="autocomplete-input" class="autocomplete">
+          <label for="autocomplete-input">Autocomplete</label>
+        </div>
+      </div>
+    </div>
+  </div>
+        
+</div>
 </body>
+</html>
