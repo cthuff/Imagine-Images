@@ -13,6 +13,8 @@ if($_GET["id_token"] === ""){
 } else {
     $_SESSION["homeURL"] = "/dashboard.php";
 }
+$sql_id = $_SESSION['sql_id'];
+
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +36,7 @@ if($_GET["id_token"] === ""){
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/materialize.min.js"></script>
-  <script src="js/init.js"</script>
+  <script src="js/init.js"></script>
 
   <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
   <meta name="google-signin-client_id" content="773465469592-70tepenvk2lc7sbhs1d1k5i98k0gdp09.apps.googleusercontent.com">
@@ -104,8 +106,8 @@ if (strpos($_SERVER['REQUEST_URI'], '/dashboard.php?id_token') !== false){
         if (!$conn) {
             die("Connection failed: " . mysqli_connect_error());
         }
-
-        $sql = "SELECT * FROM UploadedImages;";
+	
+        $sql = "SELECT * FROM UploadedImages WHERE user_id='$sql_id';";
         $results = $conn->query($sql);
         $image_names = array();
 
@@ -131,7 +133,7 @@ if (strpos($_SERVER['REQUEST_URI'], '/dashboard.php?id_token') !== false){
       </ul>
     </div>
     <br>
-    <button class="btn waves-effect waves-dark amber" onclick="window.location='/search.html'"> Search Images
+    <button class="btn waves-effect waves-dark amber" onclick="window.location='/search.php'"> Search Images
                 <i class="material-icons right">search</i>
     </button>
 

@@ -13,10 +13,7 @@ if ($payload) {
   $userid = $payload['sub'];
   $email = $payload['email'];
   $name = $payload['name'];
-
-  echo($name ."<br>");
-  echo($email ."<br>");
-  error_log($userid);
+  
 //Upload User to Database
   $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
     // Check connection
@@ -30,14 +27,17 @@ if ($payload) {
     
     if($row) {
     	$sql = "UPDATE Users SET token='$id_token' WHERE email='$email' AND sub='$userid'; ";
-	echo("UPDATE");
-	mysqli_query($conn, $sql);
+	mysqli_query($conn, $sql);	
     } else {
         $sql = "INSERT INTO Users (name, email, token , sub) values ('$name', '$email', '$id_token', $userid); ";
-        echo("INSERT");
-        mysqli_query($conn, $sql);	
+        mysqli_query($conn, $sql);
+
+ 	$sql = "SELECT id FROM Users WHERE sub = '$userid';";
+	$results = mysqli_query($conn, $sql);  
+        $row = $results->fetch_assoc();
     }
-  mysqli_close($conn);
+    $_SESSION['sql_id'] = $row['id'];
+    mysqli_close($conn);
 } else {
   // Invalid ID token
   echo "<a>Invalid token</a>";

@@ -57,7 +57,7 @@ $_SESSION["homeURL"] = "/";
 }
   </style>
 </head>
-<body>
+<body onload="onSignIn()">
   <header>
   <nav class="light-blue" style="line-height: 0px"role="navigation">
     <ul id="nav-mobile" class="right">
@@ -150,8 +150,7 @@ $_SESSION["homeURL"] = "/";
 
     var id_token = googleUser.getAuthResponse().id_token;
     $( "#newUser" ).load( 'signin.php/?id_token=' + id_token , function() { });
-    window.location.replace('/dashboard.php?id_token=' + id_token);
-    
+    window.location.replace('/dashboard.php?id_token=' + id_token);    
   }
   </script>
   <script>

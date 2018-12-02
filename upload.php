@@ -6,7 +6,6 @@ CS 174 Final Project - Imagine Images
 include "../inc/dbinfo.inc";
 session_start();
 
-error_log($_SESSION["homeURL"]);
 if($_SESSION["homeURL"] !== "/dashboard.php"){
 echo '<meta http-equiv="refresh" content="0; url=/">';
 exit(0);
@@ -129,7 +128,7 @@ if ($uploadOk == 0) {
     $script = 'aws rekognition detect-labels --image \'{"S3Object":{"Bucket":"rekognitiontest174","Name":"' . $target_name . '"}}\' --region us-west-2 ';
     $rekognize = shell_exec($script);
     $labels_found = json_decode($rekognize,true);
-   // $_SESSION["categories"] = $labels_found;
+    $_SESSION["categories"] = $labels_found['Labels'];
     echo "<img style='display: block; margin-left: auto; margin-right: auto;' width='650' src='$target_file'>";
     
     if (count($labels_found['Labels'])) {
@@ -137,7 +136,7 @@ if ($uploadOk == 0) {
        echo (' <form id="test" action="#"> <p> ');
        for($i = 0; $i < 5; $i++){
            $category = $labels_found['Labels'][$i]['Name'];
-	   $_SESSION["cat".$i] = $category;
+	   //$_SESSION["cat".$i] = $category;
            echo("<label> <input id='cat_$i' type='checkbox' display='inline-block' class='filled-in'/><span> $category &nbsp;&nbsp;&nbsp; </span> </label> ");
        }
        echo ('</p> </form>');
@@ -179,12 +178,23 @@ if ($uploadOk == 0) {
 <script>
 function goHome(){
 
-<?php
-  if($uploadOk == 1){
-      echo '$( "#test" ).load( "upload_image.php?name=' . $target_name . '&path=' . $target_file . '", function() { });';
-   }
-   echo ("window.location.replace('/dashboard.php');");
-  ?>
+<?php if ($uploadOk == 1) {
+echo('var str = "cat_";
+var check = document.getElementById(str.concat("0")).checked;
+var categories = new Array();
+for(var i = 0; i < 5; i++) {
+    if(document.getElementById(str.concat(i)).checked == true) {
+        categories.push(i);
+    }
+}');
+echo("$.ajax(
+    {
+      type: 'post',
+      url: 'upload_image.php',
+      data: {cats: categories, name: '$target_name', path: '$target_file' }
+    })\n");
+}?>
+window.location.replace('/dashboard.php');
 }
 </script>
 
