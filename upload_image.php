@@ -6,11 +6,12 @@
 include "../inc/dbinfo.inc";
 require_once 'vendor/autoload.php';
 session_start();
+
 $sql_id = $_SESSION['sql_id'];
 
 $categories = $_SESSION["categories"];
 $cat_index = $_POST["cats"];
-$size = count($cat_index);
+$size = is_array($cat_index) ? count($cat_index) : 0 ;
 
 //$purchasable = $_SESSION["purchasable"];
 $target_name = $_POST["name"];
@@ -43,12 +44,12 @@ $image_id = $row['image_id'];
 
 if($size > 0){
    for($i = 0; $i < $size; $i++){
-        $temp_cat = $categories[$i]['Name'];
+        $temp_cat = $categories[$cat_index[$i]]['Name'];
 	$sql = "INSERT INTO ImageCategories (image_id, category) values ('$image_id', '$temp_cat')";
         mysqli_query($conn, $sql);
    }
 } else {
-  $sql = "INSERT INTO ImageCategories (id, category) values ('$image_id', 'uncategorized')";
+  $sql = "INSERT INTO ImageCategories (image_id, category) values ('$image_id', 'uncategorized')";
   mysqli_query($conn, $sql);
 }
 

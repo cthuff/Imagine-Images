@@ -6,13 +6,16 @@ CS 174 Final Project - Imagine Images
 include "../inc/dbinfo.inc";
 require_once 'vendor/autoload.php';
 session_start();
+$urls = array("https://images.craighuff.com/upload.php", "https://images.craighuff.com/delete.php","https://images.craighuff.com/index.php","https://images.craighuff.com/dashboad.php");
 
-if($_GET["id_token"] === ""){
+if (strpos($_SERVER['REQUEST_URI'], '/dashboard.php?id_token') !== false){
+    $_SESSION['token'] = $_GET['id_token'];
+} 
+if(isset($_SESSION['token']) == false){
     echo '<meta http-equiv="refresh" content="0; url=/">';
     exit(0);
-} else {
-    $_SESSION["homeURL"] = "/dashboard.php";
 }
+$_SESSION["homeURL"] = "/dashboard.php";
 $sql_id = $_SESSION['sql_id'];
 
 ?>
@@ -48,12 +51,6 @@ $sql_id = $_SESSION['sql_id'];
   </script>
 </head>
 <body>
-<?php
-if (strpos($_SERVER['REQUEST_URI'], '/dashboard.php?id_token') !== false){
-    $_SESSION['token'] = $_GET['id_token'];
-//    echo '<script> $( "#newUser" ).load( "upate_user.php?name=' . $target_name . '&email=' . $target_file . '&token=", function() { }); </script>';
-}
-?>
 <div id="newUser" style="display:none"></div>
 <form id="deleteForm" name="deleteForm" method="post" action="delete.php" method="post">
     <input type="hidden" name="filename" value="">
