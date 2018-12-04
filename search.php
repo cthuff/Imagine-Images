@@ -29,7 +29,51 @@ session_start();
   <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
   <meta name="google-signin-client_id" content="773465469592-70tepenvk2lc7sbhs1d1k5i98k0gdp09.apps.googleusercontent.com">
   
-</script>
+<style>
+* {
+    box-sizing: border-box;
+}
+
+.big-boxen {
+    display: -ms-flexbox; /* IE10 */
+    display: flex;
+    -ms-flex-wrap: wrap; /* IE10 */
+    flex-wrap: wrap;
+    padding: 0 4px;
+    
+}
+
+/* Create four equal boxen that sits next to each other */
+.boxen {
+    -ms-flex: 25%; /* IE10 */
+    flex: 25%;
+    max-width: 25%;
+    padding: 0 4px;
+}
+
+.boxen img {
+    margin-top: 8px;
+    vertical-align: middle;
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 800px) {
+    .boxen {
+        -ms-flex: 50%;
+        flex: 50%;
+        max-width: 50%;
+    }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+    .boxen {
+        -ms-flex: 100%;
+        flex: 100%;
+        max-width: 100%;
+    }
+}
+</style>
 </head>
 <body>
   <div id="newUser" style="display:none"></div>
@@ -52,7 +96,7 @@ session_start();
       <h4 class="header center amber-text text-accent-2 hide-on-med-and-up" style="padding:0px; padding-bottom:15px;">Imagine Images</h4>
       <div class="row">
         <div id="search1" class="col s5">
-	  <select>
+	  <select id="cat_selector">
 	    <option value="" selected disabled>Choose your option</option>
 	    <?php
 	      $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
@@ -60,14 +104,12 @@ session_start();
 	      if (!$conn) {
    	           die("Connection failed: " . mysqli_connect_error());
 	      }
-	      $sql = "SELECT * FROM UploadedImages;";
+	      $sql = "SELECT DISTINCT category FROM ImageCategories;";
 	      $results = $conn->query($sql);
-	      $image_names = array();
 	      $counter = 0;
 	      if ($results->num_rows > 0) {
-	          echo "<a>The files that have been uploaded are: <br></a>";
 	          while($row = $results->fetch_assoc()) {
-	              echo "<option value=" . $counter . ">" . $row['image_name'] ."</option>";
+	              echo "<option value=" . $counter . ">" . $row['category'] ."</option>";
                       $counter++;
 	          }
 	      } else {
@@ -88,10 +130,8 @@ session_start();
               }
               $sql = "SELECT * FROM UploadedImages;";
               $results = $conn->query($sql);
-              $image_names = array();
               $counter = 0;
               if ($results->num_rows > 0) {
-                  echo "<a>The files that have been uploaded are: <br></a>";
                   while($row = $results->fetch_assoc()) {
                       echo "<option value=" . $counter . ">" . $row['image_name'] ."</option>";
                       $counter++;
@@ -103,12 +143,17 @@ session_start();
 	  </select>
 	  <label>Category 2</label>
 	</div>
-	<button class="btn waves-effect waves-dark amber s2" type="submit"name="submit"> Search 
+	<button class="btn waves-effect waves-dark amber s2" onclick="search()"> Search 
           <i class="material-icons right">search</i>
         </button>
       </div>
     </div>
   </div>
+  <div class="big-boxen" id="viewimages">
+       
+  </div>
+  
+
   <script>
     function onSignIn(googleUser) {
     
@@ -131,6 +176,22 @@ session_start();
     $( "#newUser" ).load( "logout.php", function() { });
     window.location.replace('/');
     }
+  </script>
+  
+  <script>
+  function search(){
+  var cats = document.getElementById("cat_selector");
+  var selected_cat = cats.options[cats.selectedIndex].text;
+  $.ajax({
+        type: "GET",
+	data: 'category=' + selected_cat,
+        url: "image_search.php/",
+        dataType: "html",
+        success: function(data){
+            $('#viewimages').html(data);
+        }
+      });
+  }
   </script>
 </body>
 </html>

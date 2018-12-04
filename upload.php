@@ -1,5 +1,5 @@
 <!--Created by Craig Huff
-11/14/18
+11/28/18
 CS 174 Final Project - Imagine Images
   -->
 <?php

@@ -130,7 +130,7 @@ $sql_id = $_SESSION['sql_id'];
       </ul>
     </div>
     <br>
-    <button class="btn waves-effect waves-dark amber" style="display:none;" onclick="window.location='/search.php'"> Search Images
+    <button class="btn waves-effect waves-dark amber" onclick="window.location='/search.php'"> Search Images
                 <i class="material-icons right">search</i>
     </button>
 

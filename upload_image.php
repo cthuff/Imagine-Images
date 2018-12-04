@@ -49,7 +49,7 @@ if($size > 0){
         mysqli_query($conn, $sql);
    }
 } else {
-  $sql = "INSERT INTO ImageCategories (image_id, category) values ('$image_id', 'uncategorized')";
+  $sql = "INSERT INTO ImageCategories (image_id, category) values ('$image_id', 'Uncategorized')";
   mysqli_query($conn, $sql);
 }
 
