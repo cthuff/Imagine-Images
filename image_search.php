@@ -1,8 +1,64 @@
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial;
+}
+
+.header {
+    text-align: center;
+    padding: 32px;
+}
+
+.big-boxen {
+    display: -ms-flexbox; /* IE10 */
+    display: flex;
+    -ms-flex-wrap: wrap; /* IE10 */
+    flex-wrap: wrap;
+    padding: 0 4px;
+}
+
+/* Create four equal columns that sits next to each other */
+.boxen {
+    -ms-flex: 25%; /* IE10 */
+    flex: 25%;
+    max-width: 25%;
+    padding: 0 4px;
+}
+
+.boxen img {
+    margin-top: 8px;
+    vertical-align: middle;
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 800px) {
+    .boxen {
+        -ms-flex: 50%;
+        flex: 50%;
+        max-width: 50%;
+    }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+    .boxen {
+        -ms-flex: 100%;
+        flex: 100%;
+        max-width: 100%;
+    }
+}
+</style>
+<div class="big-boxen">
 <?php
 include "../inc/dbinfo.inc";
 require_once 'vendor/autoload.php';
 session_start();
 
+$image_counter = 0;
 $cat = $_GET['category'];
 $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 // Check connection
@@ -11,13 +67,22 @@ if (!$conn) {
 }
 $sql = "SELECT filepath FROM UploadedImages WHERE image_id IN (SELECT image_id FROM ImageCategories WHERE category = '$cat');";
 $results = $conn->query($sql);
+$size = $results->num_rows / 4;
 
 echo('<div class ="boxen">');
 if ($results->num_rows > 0) {
     while($row = $results->fetch_assoc()) {
-        echo "<img class='boxen' src=" . $row['filepath'] . ">";
+        if($image_counter >= ceil($size/4)){
+	    echo '</div></br><div class ="boxen">';
+	    echo "<img src=" . $row['filepath'] . " style='width:100%;'>";
+            $image_counter = 0;
+	} else {
+	    echo "<img src=" . $row['filepath'] . " style='width:100%;'>";
+	    $image_counter++;
+	}
     }
 }
 echo("</div>");
-echo('<div class="boxen"> <img class="boxen" src="uploads/DSC_8783.JPG" </div>');
+
 ?>
+</div>

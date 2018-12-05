@@ -28,52 +28,6 @@ session_start();
   
   <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
   <meta name="google-signin-client_id" content="773465469592-70tepenvk2lc7sbhs1d1k5i98k0gdp09.apps.googleusercontent.com">
-  
-<style>
-* {
-    box-sizing: border-box;
-}
-
-.big-boxen {
-    display: -ms-flexbox; /* IE10 */
-    display: flex;
-    -ms-flex-wrap: wrap; /* IE10 */
-    flex-wrap: wrap;
-    padding: 0 4px;
-    
-}
-
-/* Create four equal boxen that sits next to each other */
-.boxen {
-    -ms-flex: 25%; /* IE10 */
-    flex: 25%;
-    max-width: 25%;
-    padding: 0 4px;
-}
-
-.boxen img {
-    margin-top: 8px;
-    vertical-align: middle;
-}
-
-/* Responsive layout - makes a two column-layout instead of four columns */
-@media screen and (max-width: 800px) {
-    .boxen {
-        -ms-flex: 50%;
-        flex: 50%;
-        max-width: 50%;
-    }
-}
-
-/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
-    .boxen {
-        -ms-flex: 100%;
-        flex: 100%;
-        max-width: 100%;
-    }
-}
-</style>
 </head>
 <body>
   <div id="newUser" style="display:none"></div>
@@ -149,7 +103,7 @@ session_start();
       </div>
     </div>
   </div>
-  <div class="big-boxen" id="viewimages">
+  <div id="viewimages">
        
   </div>
   
@@ -182,10 +136,20 @@ session_start();
   function search(){
   var cats = document.getElementById("cat_selector");
   var selected_cat = cats.options[cats.selectedIndex].text;
-  $.ajax({
-        type: "GET",
+  
+//  $.ajax({
+  //      type: "GET",
+    //    url: "images.php/",
+      //  dataType: "html",
+        //success: function(data){
+         //   $('#viewimages').html(data);
+      //  }
+     // });
+ // }
+$.ajax({
+      type: "GET",
 	data: 'category=' + selected_cat,
-        url: "image_search.php/",
+	url: "image_search.php/",
         dataType: "html",
         success: function(data){
             $('#viewimages').html(data);
