@@ -136,17 +136,7 @@ session_start();
   function search(){
   var cats = document.getElementById("cat_selector");
   var selected_cat = cats.options[cats.selectedIndex].text;
-  
-//  $.ajax({
-  //      type: "GET",
-    //    url: "images.php/",
-      //  dataType: "html",
-        //success: function(data){
-         //   $('#viewimages').html(data);
-      //  }
-     // });
- // }
-$.ajax({
+  $.ajax({
       type: "GET",
 	data: 'category=' + selected_cat,
 	url: "image_search.php/",
