@@ -65,7 +65,7 @@ $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 if (!$conn) {
    die("Connection failed: " . mysqli_connect_error());
 }
-$sql = "SELECT filepath FROM UploadedImages WHERE image_id IN (SELECT image_id FROM ImageCategories WHERE category = '$cat');";
+$sql = "SELECT image_name, filepath FROM UploadedImages WHERE image_id IN (SELECT image_id FROM ImageCategories WHERE category = '$cat');";
 $results = $conn->query($sql);
 $size = $results->num_rows / 4;
 
@@ -74,10 +74,10 @@ if ($results->num_rows > 0) {
     while($row = $results->fetch_assoc()) {
         if($image_counter >= ceil($size/4)){
 	    echo '</div></br><div class ="boxen">';
-	    echo "<img src=" . $row['filepath'] . " style='width:100%;'>";
+	    echo "<img src=" . $row['filepath'] . " style='width:100%;' href='buy.php/?name=". $row['image_name']. "'>";
             $image_counter = 0;
 	} else {
-	    echo "<img src=" . $row['filepath'] . " style='width:100%;'>";
+	    echo "<img src=" . $row['filepath'] . " style='width:100%;' href='buy.php/?name=". $row['image_name']. "'>";
 	    $image_counter++;
 	}
     }

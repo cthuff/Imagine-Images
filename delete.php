@@ -11,9 +11,8 @@ if($_SESSION["homeURL"] == "/"){
 echo '<meta http-equiv="refresh" content="0; url=/">';
 exit(0);
 } else if (!$_POST['filename']){
-//####PUT THIS BACK IN WHEN ALL THE SEQUEL CALLS ARE DONE ####
-//echo '<meta http-equiv="refresh" content="0; url=/dashboard.php">';
-//exit(0);
+echo '<meta http-equiv="refresh" content="0; url=/dashboard.php">';
+exit(0);
 }
 
 $filename = $_POST['filename'];

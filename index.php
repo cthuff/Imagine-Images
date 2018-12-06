@@ -93,7 +93,7 @@ $_SESSION["homeURL"] = "/";
                     <h2 class="center amber-text text-accent-2"><i class="material-icons">cloud_upload</i></h2>
                     <h5 class="center">Upload Your Images</h5>
 
-                    <p class="light">Upload any images! We'll automatically suggest categories for the file  uploaded and store it to be accessed from a secure account at any time.</p>
+                    <p class="light">Upload any images! We'll automatically suggest categories for the file uploaded and store it to be accessed from a secure account at any time.</p>
                 </div>
             </div>
 
@@ -102,7 +102,7 @@ $_SESSION["homeURL"] = "/";
                     <h2 class="center amber-text text-accent-2"><i class="material-icons">attach_money</i></h2>
                     <h5 class="center">Sell Your Images</h5>
 
-                    <p class="light">After an image is uploaded, there is the  ability to list the photo for sale or simply keep it in a secure profile to view privatly.</p>
+                    <p class="light">After an image is uploaded, there is the ability to list the photo for sale or simply keep it in a secure profile to view privately.</p>
                 </div>
             </div>
 

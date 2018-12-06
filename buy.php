@@ -48,42 +48,10 @@ session_start();
   <div class="container">
     <div class="section">
       <h4 class="header center amber-text text-accent-2 hide-on-med-and-up" style="padding:0px; padding-bottom:15px;">Imagine Images</h4>
-      <div class="row">
-        <div id="search1" class="col s10">
-	  <select id="cat_selector">
-	    <option value="" selected disabled>Choose your option</option>
-	    <?php
-	      $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
-	      // Check connection
-	      if (!$conn) {
-   	           die("Connection failed: " . mysqli_connect_error());
-	      }
-	      $sql = "SELECT DISTINCT category FROM ImageCategories;";
-	      $results = $conn->query($sql);
-	      $counter = 0;
-	      if ($results->num_rows > 0) {
-	          while($row = $results->fetch_assoc()) {
-	              echo "<option value=" . $counter . ">" . $row['category'] ."</option>";
-                      $counter++;
-	          }
-	      } else {
-	          echo "No images have been uploaded yet";
-	      }
-	    ?>
-	  </select>
-	  <label>Category 1</label>
-	</div>
-	<button class="btn waves-effect waves-dark amber s2" onclick="search()"> Search 
-          <i class="material-icons right">search</i>
-        </button>
-      </div>
+      <a class="waves-effect waves-dark amber btn-large" style="display: block; margin-left: auto; margin-right: auto;" onclick="buy()" >Home</a>
     </div>
   </div>
-  <div id="viewimages">
-       
-  </div>
   
-
   <script>
     function onSignIn(googleUser) {
     
@@ -109,17 +77,26 @@ session_start();
   </script>
   
   <script>
-  function search(){
-  var cats = document.getElementById("cat_selector");
-  var selected_cat = cats.options[cats.selectedIndex].text;
+  function buy(){
   $.ajax({
       type: "GET",
-	data: 'category=' + selected_cat,
-	url: "image_search.php/",
+	data: {
+	    'category' : "" ,
+	},
+	url: "image_purchase.php/",
         dataType: "html",
-        success: function(data){
-            $('#viewimages').html(data);
+        success: function(res){
+	res = JSON.parse(res);
+        if (res.error) {
+            // handle the error
+	    alert(res.error);
+	    
+        } else {
+  	    alert(res.result);
         }
+	}
+      }).fail(function(jqXHR, textStatus, error){
+      	    alert(jqXHR.responseText);
       });
   }
   </script>
