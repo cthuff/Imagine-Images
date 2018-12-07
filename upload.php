@@ -27,7 +27,7 @@ exit(0);
   
   <!-- CSS -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/> 
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"> 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
   <!-- Compiled and minified JavaScript -->

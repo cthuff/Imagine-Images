@@ -16,7 +16,7 @@ session_start();
   
   <!-- CSS -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   
   <!-- Compiled and minified JavaScript -->
@@ -48,7 +48,8 @@ session_start();
   <div class="container">
     <div class="section">
       <h4 class="header center amber-text text-accent-2 hide-on-med-and-up" style="padding:0px; padding-bottom:15px;">Imagine Images</h4>
-      <a class="waves-effect waves-dark amber btn-large" style="display: block; margin-left: auto; margin-right: auto;" onclick="buy()" >Home</a>
+      <?php echo "<img style='display: block; margin-left: auto; margin-right: auto;' width='650' src='uploads/" .$_GET["name"] ."'>"; ?>
+      <a class="waves-effect waves-dark amber btn-large" style="display: block; margin-left: auto; margin-right: auto;" onclick="buy()" >Purchase</a>
     </div>
   </div>
   
@@ -79,24 +80,22 @@ session_start();
   <script>
   function buy(){
   $.ajax({
-      type: "GET",
+      type: "POST",
 	data: {
-	    'category' : "" ,
+	    'filename' : "<?php echo $_GET['name']; ?>" ,
 	},
 	url: "image_purchase.php/",
-        dataType: "html",
-        success: function(res){
-	res = JSON.parse(res);
-        if (res.error) {
+	dataType: "html",
+	cache: false,
+	success: function(res){
+	    res = JSON.parse(res);
+            if (res.error) {
             // handle the error
-	    alert(res.error);
-	    
-        } else {
-  	    alert(res.result);
-        }
+	        alert(res.error);    
+            } else {
+ 		window.location.replace("<?php echo $_SESSION['homeURL']; ?>");
+            }
 	}
-      }).fail(function(jqXHR, textStatus, error){
-      	    alert(jqXHR.responseText);
       });
   }
   </script>

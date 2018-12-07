@@ -32,7 +32,7 @@ $sql_id = $_SESSION['sql_id'];
   
   <!-- CSS -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/> 
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"> 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
   <!-- Compiled and minified JavaScript -->
@@ -74,7 +74,8 @@ $sql_id = $_SESSION['sql_id'];
        <div class="section">
        	    <h4 class="header center amber-text text-accent-2 hide-on-med-and-up" style="padding:0px; padding-bottom:15px;">Imagine Images</h4>
        	    <form action="upload.php" method="post" enctype="multipart/form-data">
-       	    <h5 class="light-blue-text">Select image to upload:</h5>
+            <h4 class="light-blue-text" style="text-align: center; padding-bottom:15px;">Dashboard</h4>
+            <h6 class="amber-text" style="style='font-size:16px; margin-bottom:5px;">Select image to upload:</h6>
 	    <div class="file-field input-field">
             	 <div class="btn waves-effect waves-dark amber" width="75px">
             	      &nbsp;&nbsp;<span>File</span>&nbsp;&nbsp;
@@ -110,7 +111,7 @@ $sql_id = $_SESSION['sql_id'];
 
         //$var = shell_exec('ls uploads/');
         if ($results->num_rows > 0) {
-            echo "<a>The files that have been uploaded are: <br></a>";
+            echo "<a class='amber-text' style='font-size:16px; margin-bottom:5px;'>The files that have been uploaded are: <br></a>";
             while($row = $results->fetch_assoc()) { 
               $image_name = $row['image_name'];
               array_push($image_names, $image_name);

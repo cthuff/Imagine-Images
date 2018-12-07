@@ -74,10 +74,10 @@ if ($results->num_rows > 0) {
     while($row = $results->fetch_assoc()) {
         if($image_counter >= ceil($size/4)){
 	    echo '</div></br><div class ="boxen">';
-	    echo "<img src=" . $row['filepath'] . " style='width:100%;' href='buy.php/?name=". $row['image_name']. "'>";
+	    echo "<img src=" . $row['filepath'] . " style='width:100%;' onclick='window.location.replace(buy.php?name=". $row['image_name']. "')>";
             $image_counter = 0;
 	} else {
-	    echo "<img src=" . $row['filepath'] . " style='width:100%;' href='buy.php/?name=". $row['image_name']. "'>";
+	    echo "<img src=" . $row['filepath'] . " style='width:100%;' onclick=window.location.replace('buy.php?name=". $row['image_name']. "')>";
 	    $image_counter++;
 	}
     }
@@ -85,4 +85,3 @@ if ($results->num_rows > 0) {
 echo("</div>");
 
 ?>
-</div>

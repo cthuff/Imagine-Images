@@ -79,10 +79,8 @@ session_start();
       </div>
     </div>
   </div>
-  <div id="viewimages">
-       
-  </div>
-  
+  <div id="viewimages"></div>
+
 
   <script>
     function onSignIn(googleUser) {

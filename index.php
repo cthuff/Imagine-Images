@@ -25,7 +25,7 @@ $_SESSION["homeURL"] = "/";
   
   <!-- CSS -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen,projection"/> 
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen,projection"> 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
  
   <!-- Compiled and minified JavaScript -->
