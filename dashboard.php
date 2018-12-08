@@ -98,6 +98,8 @@ $sql_id = $_SESSION['sql_id'];
 	</form>
    </div>
    <div class="section">   
+    <div class="row">
+      <div class="col s6">
       <?php
         $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
         // Check connection
@@ -109,19 +111,44 @@ $sql_id = $_SESSION['sql_id'];
         $results = $conn->query($sql);
         $image_names = array();
 
-        //$var = shell_exec('ls uploads/');
         if ($results->num_rows > 0) {
-            echo "<a class='amber-text' style='font-size:16px; margin-bottom:5px;'>The files that have been uploaded are: <br></a>";
+            echo "<h5 class='light-blue-text' style='margin-bottom:5px;'>Uploads <br></h5>";
             while($row = $results->fetch_assoc()) { 
               $image_name = $row['image_name'];
               array_push($image_names, $image_name);
-              echo "<a target=_blank href=uploads/$image_name>" . $image_name . "<br></a>";
+              echo "<a class='amber-text' target=_blank href=uploads/$image_name>" . $image_name . "<br></a>";
             }
           }
           else {
             echo "No images have been uploaded yet";
           }	  
       ?>
+      </div>
+      <div class="col s6">
+      <?php
+        $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+
+        $sql = "SELECT * FROM PurchasedImages WHERE buyer_id=$sql_id;";
+        $results = $conn->query($sql);
+        
+        if ($results->num_rows > 0) {
+            echo "<h5 class='amber-text' style='margin-bottom:5px;'>Purchases <br></h5>";
+            while($row = $results->fetch_assoc()) {
+              $image_name = $row['image_name'];
+              
+              echo "<a target=_blank href=uploads/$image_name>" . $image_name . "<br></a>";
+            }
+          }
+          else {
+            echo "No images have been purchased yet";
+          }
+      ?>
+      </div>
+    </div>
       <br>
 
       <!-- Dropdown Trigger -->
@@ -129,6 +156,7 @@ $sql_id = $_SESSION['sql_id'];
       <!-- Dropdown Structure -->
       <ul id='deleteDropdown' class='dropdown-content'> 
       </ul>
+
     </div>
     <br>
     <button class="btn waves-effect waves-dark amber" onclick="window.location='/search.php'"> Search Images

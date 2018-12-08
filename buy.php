@@ -2,6 +2,9 @@
 include "../inc/dbinfo.inc";
 require_once 'vendor/autoload.php';
 session_start();
+
+//$sql = SELECT id FROM Users WHERE Users.id = (SELECT user_id FROM UploadedImages WHERE image_name="$_GET['name']");
+
 ?>
 
 <!DOCTYPE html>
@@ -48,8 +51,11 @@ session_start();
   <div class="container">
     <div class="section">
       <h4 class="header center amber-text text-accent-2 hide-on-med-and-up" style="padding:0px; padding-bottom:15px;">Imagine Images</h4>
+      <?php echo "<h5 class='light-blue-text' style='text-align:center'>Image: ". $_GET["name"] ."</h5>";?>
       <?php echo "<img style='display: block; margin-left: auto; margin-right: auto;' width='75%' src='uploads/" .$_GET["name"] ."'>"; ?>
       <br>
+      
+      
       <a class="waves-effect waves-dark light-blue btn-large" style="display:block; margin-left: auto; margin-right: auto;" onclick="window.location.replace('search.php')" ><i class="material-icons left">keyboard_backspace</i> Back to Search</a>
       <br>
       <a class="waves-effect waves-dark amber btn-large" style="display: block; margin-left: auto; margin-right: auto;" onclick="buy()" ><i class="material-icons left">attach_money</i>Purchase</a>

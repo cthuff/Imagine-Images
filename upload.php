@@ -5,7 +5,7 @@ CS 174 Final Project - Imagine Images
 <?php
 include "../inc/dbinfo.inc";
 session_start();
-
+$watermark = imagecreatefrompng("Watermark.png");
 if($_SESSION["homeURL"] !== "/dashboard.php"){
 echo '<meta http-equiv="refresh" content="0; url=/">';
 exit(0);
@@ -70,14 +70,24 @@ if ($_POST["newFileName"] != ""){
     $target_file = $target_dir . $target_name;
 }
 
+if($imageFileType === "png") {
+    $im = imagecreatefrompng('$_FILES["fileToUpload"]["tmp_name"]');
+    $png = true;
+} else if ($imageFileType === "jpg" || $imageFileType ==="jpeg"){
+    $im = imagecreatefromjpeg('$_FILES["fileToUpload"]["tmp_name"]');
+    $jpeg = true;
+} else {
+  $uploadOk = 0;
+}
+
 //Taken from W3Schools
 //https://www.w3schools.com/PHP/php_file_upload.asp
 
 
   if ($_FILES["fileToUpload"]["error"] > 0)
    {
-   echo "Apologies, an error has occurred.<br>";
-   echo "Error Code: " . $_FILES["fileToUpload"]["error"] . "<br>";
+   echo "Sorry about that.<br>";
+   echo "This image can't be uploaded, we'll take a look at the problem.";
    }
 
 // Check if image file is a actual image or fake image
@@ -100,15 +110,15 @@ if (file_exists($target_file) && $uploadOk == 1) {
     echo "<a>" . "Sorry, file already exists.</a><br>";
     $uploadOk = 0;
 }
-// Check file size: Must be less than 8.3MB (This is set by AWS)                    
-if ($_FILES["fileToUpload"]["size"] > 8388608  && $uploadOk == 1) {
-    echo "<a>" . "Sorry, the file must be less than 8MB.</a><br>";
+// Check file size: Must be less than 5.3MB (This is set by AWS)                    
+if ($_FILES["fileToUpload"]["size"] > 5388608  && $uploadOk == 1) {
+    echo "<a>" . "Sorry, the file must be less than 5MB.</a><br>";
     $uploadOk = 0;
 }
 // Allow certain file formats
 if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 && $imageFileType != "gif"  && $uploadOk == 1) {
-    echo "<a>" . "Sorry, only JPG, JPEG, PNG & GIF files are allowed.</a><br>";
+    echo "<a>" . "Sorry, only JPG, JPEG & PNG files are allowed.</a><br>";
     $uploadOk = 0;
 }
 // Check if $uploadOk is set to 0 by an error
@@ -117,9 +127,9 @@ if ($uploadOk == 0) {
 // if everything is ok, try to upload file
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        echo "<a>" . "The file '". $target_name . "' has been uploaded.</a><br>";
+        echo "<a style='text-align:center;'>" . "The file '". $target_name . "' has been uploaded.</a><br>";
         list($width, $height) = getimagesize($target_file) ;
-        echo "<a>" . "Image size is $width x $height</a><br>";
+        echo "<a style='text-align:center;'>" . "Image size is $width x $height</a><br>";
         shell_exec('aws s3 sync /var/www/html/uploads/ s3://rekognitiontest174/ ');
     } else {
         echo "<a>" . "Sorry, there was an error uploading your file.</a><br>"; 
@@ -141,6 +151,24 @@ if ($uploadOk == 0) {
        }
        echo ('</p> </form>');
     }
+    //Foreground image, height, and width values
+        $foreground = $watermark;
+        $overlay_width = imagesx($foreground);
+        $overlay_height = imagesy($foreground);
+
+        //width and height of the background image
+        $width = imagesx($im);
+        $height = imagesy($im);
+
+        //From the GD library, merges the two pictures together 
+        //starting at a point specified by the method 
+        //The overall opaqueness of the image can also be changed 
+        imagecopymerge($im, $foreground, $x_placement, $y_placement, 0, 0, $overlay_width, $overlay_height, 50);
+
+	if($png) {
+	    imagepng($im, 'watermarked/'. $target_name);
+	} else if($jpeg) {
+	   imagejpeg($im, 'watermarked/'. $target_name);}
   }
   ?>
     <br>
@@ -190,7 +218,7 @@ for(var i = 0; i < 5; i++) {
 echo("$.ajax(
     {
       type: 'post',
-      url: 'upload_image.php',
+      url: 'image_upload.php',
       data: {cats: categories, name: '$target_name', path: '$target_file' }
     })\n");
 }?>
