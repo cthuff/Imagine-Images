@@ -70,16 +70,6 @@ if ($_POST["newFileName"] != ""){
     $target_file = $target_dir . $target_name;
 }
 
-if($imageFileType === "png") {
-    $im = imagecreatefrompng('$_FILES["fileToUpload"]["tmp_name"]');
-    $png = true;
-} else if ($imageFileType === "jpg" || $imageFileType ==="jpeg"){
-    $im = imagecreatefromjpeg('$_FILES["fileToUpload"]["tmp_name"]');
-    $jpeg = true;
-} else {
-  $uploadOk = 0;
-}
-
 //Taken from W3Schools
 //https://www.w3schools.com/PHP/php_file_upload.asp
 
@@ -151,24 +141,39 @@ if ($uploadOk == 0) {
        }
        echo ('</p> </form>');
     }
-    //Foreground image, height, and width values
+// ######################################
+// # Image Copy and Merge 
+// #####################################
+    $target_watermark = "watermarked/" . $target_name;    
+       if($imageFileType === "png") {
+         $im = imagecreatefrompng($target_file);
+	 $png = true;
+	 } else if ($imageFileType === "jpg" || $imageFileType ==="jpeg"){
+	     $im = imagecreatefromjpeg($target_file);
+	     $jpeg = true;
+	 }
+	
         $foreground = $watermark;
         $overlay_width = imagesx($foreground);
         $overlay_height = imagesy($foreground);
 
-        //width and height of the background image
-        $width = imagesx($im);
-        $height = imagesy($im);
+        //center width and height of the background image
+        $width = imagesx($im) / 2 - $overlay_width / 2;
+        $height = imagesy($im) / 2 - $overlay_height / 2;
 
         //From the GD library, merges the two pictures together 
         //starting at a point specified by the method 
         //The overall opaqueness of the image can also be changed 
-        imagecopymerge($im, $foreground, $x_placement, $y_placement, 0, 0, $overlay_width, $overlay_height, 50);
+        imagecopymerge($im, $foreground, $width, $height, 0, 0, $overlay_width, $overlay_height, 30);
 
-	if($png) {
-	    imagepng($im, 'watermarked/'. $target_name);
-	} else if($jpeg) {
-	   imagejpeg($im, 'watermarked/'. $target_name);}
+	if(isset($png)) {
+	   imagepng($im, $target_watermark);
+	    
+	} else if(isset($jpeg)) {
+	   imagejpeg($im, $target_watermark);
+	}
+	imagedestroy($im);
+	imagedestroy($watermark);
   }
   ?>
     <br>
@@ -219,10 +224,12 @@ echo("$.ajax(
     {
       type: 'post',
       url: 'image_upload.php',
+      cache: false,
       data: {cats: categories, name: '$target_name', path: '$target_file' }
     })\n");
 }?>
 window.location.replace('/dashboard.php');
+
 }
 </script>
 

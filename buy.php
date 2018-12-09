@@ -52,7 +52,7 @@ session_start();
     <div class="section">
       <h4 class="header center amber-text text-accent-2 hide-on-med-and-up" style="padding:0px; padding-bottom:15px;">Imagine Images</h4>
       <?php echo "<h5 class='light-blue-text' style='text-align:center'>Image: ". $_GET["name"] ."</h5>";?>
-      <?php echo "<img style='display: block; margin-left: auto; margin-right: auto;' width='75%' src='uploads/" .$_GET["name"] ."'>"; ?>
+      <?php echo "<img style='display: block; margin-left: auto; margin-right: auto;' width='75%' src='watermarked/" .$_GET["name"] ."'>"; ?>
       <br>
       
       

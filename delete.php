@@ -17,6 +17,7 @@ exit(0);
 
 $filename = $_POST['filename'];
 shell_exec("rm uploads/" . $filename );
+shell_exec("rm watermarked/" . $filename );
 shell_exec('aws s3 sync /var/www/html/uploads/ s3://rekognitiontest174/ --delete ');
 // #####################################
 // #          MySQL calls 
@@ -35,6 +36,9 @@ if (!$conn) {
 // #####################################
 
 $sql = "DELETE FROM UploadedImages WHERE image_name = '$filename' ;";
+mysqli_query($conn, $sql);
+
+$sql = "DELETE FROM ImageCategories WHERE image_id=(SELECT image_id FROM UploadedImages WHERE image_name = '$filename') ;";
 mysqli_query($conn, $sql);
   
 mysqli_close($conn);

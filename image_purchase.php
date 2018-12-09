@@ -20,16 +20,13 @@ $row = $results->fetch_assoc();
 $publisher_id = $row['user_id'];
 $image_id = $row['image_id'];
 
-$sql = "INSERT INTO PurchasedImages (image_id, publisher_id, buyer_id, image_name, filepath) values ('$image_id', '$publisher_id', '$buyer_id', '$filename', '$path');";
-mysqli_query($conn, $sql);
-
 try {
     if ($publisher_id == $buyer_id) {        
-	throw new Exception('Cannot Purchase Your Own Photo', 300);
+	throw new Exception('Cannot Purchase Your Own Photo', 403);
+    } else {    
+    $sql = "INSERT INTO PurchasedImages (image_id, publisher_id, buyer_id, image_name, filepath) values ('$image_id', '$publisher_id', '$buyer_id', '$filename', '$path');";
+    mysqli_query($conn, $sql);
     }
-    echo json_encode(array(
-        'result' => 'vanilla!',
-    ));
 } catch (Exception $e) {
     
     echo json_encode(array(

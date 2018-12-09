@@ -87,7 +87,7 @@ $sql_id = $_SESSION['sql_id'];
 	    </div>
 	    <div class="row" style="margin-bottom:0px;">
 	    	 <div class="input-field col s10" style="padding:0px;" >
-	       	      <input placeholder="Enter a new name for the image" name="newFileName" id="newFileName" type="text" class="validate" pattern="[a-zA-Z0-9]+([-_]*[a-zA-Z0-9]+)*" >
+	       	      <input placeholder="Enter a new name for the image" autocomplete="off" name="newFileName" id="newFileName" type="text" class="validate" pattern="[a-zA-Z0-9]+([-_]*[a-zA-Z0-9]+)*" >
                       <label style="margin-left:-10px;"for="newFileName">Image Name</label>
 		      <span class="helper-text" data-error="Invalid Characters in Name" data-success="Great Name!"></span>
                	 </div>
