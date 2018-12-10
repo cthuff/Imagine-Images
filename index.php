@@ -58,8 +58,9 @@ $_SESSION["homeURL"] = "/";
   </style>
 </head>
 <body onload="onSignIn()">
-  <header>
-  <nav class="light-blue" style="line-height: 0px"role="navigation">
+<div class="navbar-fixed">
+ <header>
+  <nav class="nav-wrapper light-blue" style="line-height: 0px"role="navigation">
     <ul id="nav-mobile" class="right">
         <li><div class="right g-signin2 hide-on-small-and-down" style ="padding-top:14px; padding-right:30px;"data-onsuccess="onSignIn"></div></li>
         <li><div class="right g-signin2 hide-on-med-and-up" style ="padding-top:10px; padding-right:10px"data-onsuccess="onSignIn"></div></li>
@@ -70,6 +71,7 @@ $_SESSION["homeURL"] = "/";
     </ul>
     </div>
   </nav>
+  </div>
  </header>
 <div class="section no-pad-bot" id="index-banner">
     <div class="container">
