@@ -27,6 +27,9 @@ try {
     $sql = "INSERT INTO PurchasedImages (image_id, publisher_id, buyer_id, image_name, filepath) values ('$image_id', '$publisher_id', '$buyer_id', '$filename', '$path');";
     mysqli_query($conn, $sql);
     }
+    echo json_encode(array(
+        'result' =>  "Success!",
+    ));
 } catch (Exception $e) {
     
     echo json_encode(array(
