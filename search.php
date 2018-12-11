@@ -2,6 +2,11 @@
 include "../inc/dbinfo.inc";
 require_once 'vendor/autoload.php';
 session_start();
+
+if($_SESSION["homeURL"] !== "/dashboard.php"){
+    echo '<meta http-equiv="refresh" content="0; url=/">';
+    exit(0);
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,8 +29,7 @@ session_start();
   <script src="js/init.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/materialize.min.js"></script>
-  
-  
+    
   <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
   <meta name="google-signin-client_id" content="773465469592-70tepenvk2lc7sbhs1d1k5i98k0gdp09.apps.googleusercontent.com">
 </head>
@@ -49,7 +53,7 @@ session_start();
     <div class="section">
       <h4 class="header center amber-text text-accent-2 hide-on-med-and-up" style="padding:0px; padding-bottom:15px;">Imagine Images</h4>
       <div class="row">
-        <div id="search1" class="col s10">
+        <div id="search1" class="col s12 l12 m12">
 	  <select id="cat_selector">
 	    <option value="" selected disabled>Choose your option</option>
 	    <?php
@@ -73,9 +77,12 @@ session_start();
 	  </select>
 	  <label>Category 1</label>
 	</div>
-	<button class="btn waves-effect waves-dark amber s2" onclick="search()"> Search 
+	<button class="btn waves-effect waves-dark light-blue col s5 m4 l4 hide-on-med-and-up" onclick="window.location.replace('/dashboard.php')"> Home </button>
+	<div class="col s2 m4 l4 hide-on-med-up"> </div>
+	<button class="btn waves-effect waves-dark amber col s5 m4 l4" onclick="search()"> Search 
           <i class="material-icons right">search</i>
         </button>
+
       </div>
     </div>
   </div>

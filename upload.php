@@ -7,8 +7,8 @@ include "../inc/dbinfo.inc";
 session_start();
 $watermark = imagecreatefrompng("Watermark.png");
 if($_SESSION["homeURL"] !== "/dashboard.php"){
-echo '<meta http-equiv="refresh" content="0; url=/">';
-exit(0);
+    echo '<meta http-equiv="refresh" content="0; url=/">';
+    exit(0);
 }
 ?>
 
@@ -129,7 +129,7 @@ if ($uploadOk == 0) {
     $rekognize = shell_exec($script);
     $labels_found = json_decode($rekognize,true);
     $_SESSION["categories"] = $labels_found['Labels'];
-    echo "<img style='display: block; margin-left: auto; margin-right: auto;' width='650' src='$target_file'>";
+    echo "<img style='display: block; margin-left: auto; margin-right: auto;' width='75%' src='$target_file'>";
     
     if (count($labels_found['Labels'])) {
        echo "<a> Check the boxes of categories that apply to this image </a>";
@@ -225,10 +225,13 @@ echo("$.ajax(
       type: 'post',
       url: 'image_upload.php',
       cache: false,
-      data: {cats: categories, name: '$target_name', path: '$target_file' }
+      data: {cats: categories, name: '$target_name', path: '$target_file' },
+      success: function(){
+           window.location.replace('/dashboard.php');
+      }
     })\n");
 }?>
-window.location.replace('/dashboard.php');
+
 
 }
 </script>

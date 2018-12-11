@@ -6,6 +6,7 @@ session_start();
 
 //Google Sign-In
 $id_token = $_GET["id_token"];
+$_SESSION['token'] = $id_token;
 $CLIENT_ID = "773465469592-70tepenvk2lc7sbhs1d1k5i98k0gdp09.apps.googleusercontent.com";
 $client = new Google_Client(['client_id' => $CLIENT_ID]);  // Specify the CLIENT_ID of the app that accesses the backend
 $payload = $client->verifyIdToken($id_token);
@@ -38,8 +39,14 @@ if ($payload) {
     }
     $_SESSION['sql_id'] = $row['id'];
     mysqli_close($conn);
+
+    echo json_encode(array(
+        'result' =>  "Sucess",
+    ));
 } else {
   // Invalid ID token
-  echo "<a>Invalid token</a>";
+  echo json_encode(array(
+        'error' =>  "User has not authorized application",
+    ));
 }
 ?>

@@ -7,10 +7,7 @@ include "../inc/dbinfo.inc";
 require_once 'vendor/autoload.php';
 session_start();
 $urls = array("https://images.craighuff.com/upload.php", "https://images.craighuff.com/delete.php","https://images.craighuff.com/index.php","https://images.craighuff.com/dashboad.php");
-
-if (strpos($_SERVER['REQUEST_URI'], '/dashboard.php?id_token') !== false){
-    $_SESSION['token'] = $_GET['id_token'];
-} 
+ 
 if(isset($_SESSION['token']) == false){
     echo '<meta http-equiv="refresh" content="0; url=/">';
     exit(0);
@@ -165,7 +162,7 @@ $sql_id = $_SESSION['sql_id'];
 
     </div>
 </div>
-
+<br>
   <div class="section no-pad-bot" id="index-banner">
     <div class="container"></div>
   </div>

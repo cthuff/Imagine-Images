@@ -7,6 +7,11 @@ include "../inc/dbinfo.inc";
 require_once 'vendor/autoload.php';
 session_start();
 
+if(isset($_SESSION['token']) == true){
+    echo '<meta http-equiv="refresh" content="0; url=/dashboard.php">';
+    exit(0);
+}
+
 $_SESSION["homeURL"] = "/";
 
 ?>
@@ -57,7 +62,7 @@ $_SESSION["homeURL"] = "/";
 }
   </style>
 </head>
-<body onload="onSignIn()">
+<body">
 <div class="navbar-fixed">
  <header>
   <nav class="nav-wrapper light-blue" style="line-height: 0px"role="navigation">
@@ -150,9 +155,25 @@ $_SESSION["homeURL"] = "/";
     console.log('Image URL: ' + profile.getImageUrl());
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 
-    var id_token = googleUser.getAuthResponse().id_token;
-    $( "#newUser" ).load( 'signin.php/?id_token=' + id_token , function() { });
-    window.location.replace('/dashboard.php?id_token=' + id_token);    
+    var id_token = googleUser.getAuthResponse().id_token;    
+    $.ajax({
+      type: "GET",
+        data: {
+            'id_token' : id_token ,
+        },
+        url: "signin.php/",
+        dataType: "html",
+        cache: false,
+        success: function(res){
+            res = JSON.parse(res);
+            if (res.error) {
+            // handle the error
+                alert(res.error);
+            } else {
+                window.location.replace("dashboard.php");
+            }
+        }
+      });
   }
   </script>
   <script>

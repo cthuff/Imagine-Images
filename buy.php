@@ -3,7 +3,10 @@ include "../inc/dbinfo.inc";
 require_once 'vendor/autoload.php';
 session_start();
 
-//$sql = SELECT id FROM Users WHERE Users.id = (SELECT user_id FROM UploadedImages WHERE image_name="$_GET['name']");
+if($_SESSION["homeURL"] !== "/dashboard.php"){
+    echo '<meta http-equiv="refresh" content="0; url=/">';
+    exit(0);
+}
 
 ?>
 
