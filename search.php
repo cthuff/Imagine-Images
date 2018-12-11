@@ -53,7 +53,7 @@ if($_SESSION["homeURL"] !== "/dashboard.php"){
     <div class="section">
       <h4 class="header center amber-text text-accent-2 hide-on-med-and-up" style="padding:0px; padding-bottom:15px;">Imagine Images</h4>
       <div class="row">
-        <div id="search1" class="col s12 l12 m12">
+        <div id="search1" class="col s12 l9 m9">
 	  <select id="cat_selector">
 	    <option value="" selected disabled>Choose your option</option>
 	    <?php
@@ -77,9 +77,12 @@ if($_SESSION["homeURL"] !== "/dashboard.php"){
 	  </select>
 	  <label>Category 1</label>
 	</div>
-	<button class="btn waves-effect waves-dark light-blue col s5 m4 l4 hide-on-med-and-up" onclick="window.location.replace('/dashboard.php')"> Home </button>
-	<div class="col s2 m4 l4 hide-on-med-up"> </div>
-	<button class="btn waves-effect waves-dark amber col s5 m4 l4" onclick="search()"> Search 
+	<button class="btn waves-effect waves-dark light-blue col s5 hide-on-med-and-up" onclick="window.location.replace('/dashboard.php')"> Home </button>
+	<div class="col s2 m1 l1"> </div>
+	<button class="btn waves-effect waves-dark amber col s5 m2 l2 hide-on-small-and-down" style="margin-top:7px;" onclick="search()"> Search 
+          <i class="material-icons right">search</i>
+        </button>
+	<button class=" hide-on-med-and-up btn waves-effect waves-dark amber col s5" onclick="search()"> Search
           <i class="material-icons right">search</i>
         </button>
 

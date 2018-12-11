@@ -68,7 +68,7 @@ if (!$conn) {
 $sql = "SELECT image_name FROM UploadedImages WHERE image_id IN (SELECT image_id FROM ImageCategories WHERE category = '$cat');";
 $results = $conn->query($sql);
 $size = $results->num_rows / 4;
-echo $size;
+//echo $size;
 echo('<div class ="boxen">');
 if ($results->num_rows > 0) {
     while($row = $results->fetch_assoc()) {
@@ -76,11 +76,11 @@ if ($results->num_rows > 0) {
 	    echo '</div></br><div class ="boxen">';
 	    echo "<img src=watermarked/" . $row['image_name'] . " class='test' style='width:100%;' onclick=window.location.replace('buy.php?name=". $row['image_name']. "')>";
             $image_counter = 0;
-	    echo "cell1";
+	    //echo "cell1";
 	} else {
 	    echo "<img src=watermarked/" . $row['image_name'] . " style='width:100%;' onclick=window.location.replace('buy.php?name=". $row['image_name']. "')>";
 	    $image_counter++;
-	    echo "cell2";
+	    //echo "cell2";
 	}
     }
 }
