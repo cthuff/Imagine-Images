@@ -1,3 +1,7 @@
+<!--Created by Craig Huff
+2/12/19
+CS 174 Final Project - Imagine Images
+-->
 <?php
 include "../inc/dbinfo.inc";
 require_once 'vendor/autoload.php';
