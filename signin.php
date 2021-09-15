@@ -14,7 +14,8 @@ if ($payload) {
   $userid = $payload['sub'];
   $email = $payload['email'];
   $name = $payload['name'];
-  
+
+//Test
 //Upload User to Database
   $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
     // Check connection
